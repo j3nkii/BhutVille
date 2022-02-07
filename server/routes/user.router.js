@@ -32,6 +32,29 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+router.put('/update/', rejectUnauthenticated, (req, res) => {{
+  pool.query(`
+  UPDATE "user"
+  SET username=$1
+  WHERE id=$2
+  `, [req.body.newName, req.user.id]).then(dbres => {
+    res.sendStatus(200)
+  }).catch(err => {
+    console.error('UPDATE FAILED', err);
+  })
+}})
+
+router.delete('/delete/', rejectUnauthenticated, (req, res) => {
+  pool.query(`
+  DELETE from "user"
+  WHERE id=$1
+  `, [req.user.id]).then(dbRes => {
+    res.sendStatus(201)
+  }).catch(err => {
+    console.error('DELETE failed', err);
+  })
+})
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful

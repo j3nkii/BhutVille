@@ -3,6 +3,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchUser() {
+  console.log('hitting fetch');
   try {
     const config = {
       headers: { 'Content-Type': 'application/json' },
@@ -24,8 +25,37 @@ function* fetchUser() {
   }
 }
 
+function* updateUser(action){
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.put(`api/user/update/`, {newName: action.payload.newName}, config);
+    yield put({type:'FETCH_USER'})
+  } catch (error) {
+    console.log('User get request failed', error);
+  }
+}
+
+function* deleteUser(){
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.delete(`api/user/delete/`, config)
+    yield put({type:'FETCH_USER'})
+    yield put({type:'LOGOUT'})
+  } catch (error) {
+    console.log('Delete request failed', error);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('UPDATE_USER', updateUser);
+  yield takeLatest('DELETE_USER', deleteUser);
 }
 
 export default userSaga;

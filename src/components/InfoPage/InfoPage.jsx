@@ -6,11 +6,10 @@ import React from 'react';
 // or even care what the redux state is
 
 function InfoPage() {
-  return (
-    <div className="container">
-      <p>Info Page</p>
-    </div>
-  );
+  return (<>
+    {/* <canvas id="BhutVilleCanvas"></canvas> */}
+    </>
+  )
 }
 
 export default InfoPage;
