@@ -7,7 +7,7 @@ import React from 'react';
 
 function InfoPage() {
   return (<>
-    {/* <canvas id="BhutVilleCanvas"></canvas> */}
+    <canvas id="buttville"></canvas>
     </>
   )
 }
