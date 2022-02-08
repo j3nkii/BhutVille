@@ -1,5 +1,5 @@
 import React from 'react';
-import Game from './Game'
+//import '../../../public/Game';
 
 // This is one of our simplest components
 // It doesn't have local state
@@ -8,9 +8,7 @@ import Game from './Game'
 
 function InfoPage() {
   return (<>
-    <div id="BhutVilleCanvas">
-      <canvas></canvas>
-    </div>
+      <div><a href="./game.html">link</a></div>
     </>
   )
 }
