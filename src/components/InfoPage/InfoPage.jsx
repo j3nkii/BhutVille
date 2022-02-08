@@ -1,4 +1,5 @@
 import React from 'react';
+import Game from './Game'
 
 // This is one of our simplest components
 // It doesn't have local state
@@ -7,7 +8,9 @@ import React from 'react';
 
 function InfoPage() {
   return (<>
-    {/* <canvas id="BhutVilleCanvas"></canvas> */}
+    <div id="BhutVilleCanvas">
+      <canvas></canvas>
+    </div>
     </>
   )
 }
