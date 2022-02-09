@@ -8,7 +8,7 @@ import React from 'react';
 
 function InfoPage() {
   return (<>
-      <div><a href="./game.html">link</a></div>
+      <div><button className="btn"><a href="./game.html" target="blank">TO BHUTVILLE GAME</a></button></div>
     </>
   )
 }
