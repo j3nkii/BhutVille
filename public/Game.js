@@ -34,6 +34,8 @@ function preload (){
     this.load.spritesheet('dude', 'assets/SpriteSheet.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('ramen', 'assets/oldMan3.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('market', 'assets/MarketSprite.png', { frameWidth: 16, frameHeight: 16 });
+    this.load.spritesheet('hermit', 'assets/hermit.png', { frameWidth: 16, frameHeight: 16 });
+    this.load.spritesheet('guard', 'assets/knight.png', { frameWidth: 16, frameHeight: 16 });
 }
 
 
@@ -44,6 +46,23 @@ function create (){
         GameMachine.Dialog(this);
     });
 
+    this.input.keyboard.on('keydown-Y', function (event) {
+        $.ajax({
+            method: 'POST',
+            url: '/api/user',
+            data:{ 
+                state: {
+                    ramen: GameMachine.ramen,
+                    market: GameMachine.market,
+                    hermit: GameMachine.hermit,
+                    guard: GameMachine.guard,
+                    player: GameMachine.player,
+                }
+            }
+        }).then(dbres => {
+            console.log(dbres);
+        })
+    });
     const map = this.make.tilemap({key: 'map'});
     const floorTiles = map.addTilesetImage('TilesetFloor', 'floor');
     const buildingTiles = map.addTilesetImage('TilesetHouse', 'house');
@@ -60,6 +79,12 @@ function create (){
     //market man sprite
     this.market = this.physics.add.sprite(200, 100, 'market');
     this.market.setCollideWorldBounds(true);
+    //market man sprite
+    this.hermit = this.physics.add.sprite(300, 200, 'hermit');
+    this.hermit.setCollideWorldBounds(true);
+    //market man sprite
+    this.guard = this.physics.add.sprite(500, 200, 'guard');
+    this.guard.setCollideWorldBounds(true);
     //speakin icon
     this.speak = this.physics.add.sprite(0, 0, 'speak');
     
@@ -82,7 +107,6 @@ function create (){
     
     //controls
     cursors = this.input.keyboard.createCursorKeys();
-    //console.log(Phaser);
 
     //Dialog Indicator animation
     this.anims.create({
@@ -105,26 +129,50 @@ function update (){
 
     //used to speak to ramen
     if((this.player.x <= this.ramen.x + 30 && this.player.x >= this.ramen.x - 30 )
-            &&
-        (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){
-            this.speak.y = this.ramen.y - 18
-            this.speak.x = this.ramen.x
-            this.speak.active && this.speak.anims.play('think', true);
-            this.speak.visible = true;
-                if(this.keys.F && this.keys.F.isDown){
-                    GameMachine.Dialog(this);
-                }
-        } else if((this.player.x <= this.market.x + 30 && this.player.x >= this.market.x - 30 )
+                &&
+            (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){
+        this.speak.y = this.ramen.y - 18
+        this.speak.x = this.ramen.x
+        this.speak.active && this.speak.anims.play('think', true);
+        this.speak.visible = true;
+            if(this.keys.F && this.keys.F.isDown){
+                GameMachine.speaker = 'ramen';
+                GameMachine.Dialog(this);
+            }
+    } else if((this.player.x <= this.market.x + 30 && this.player.x >= this.market.x - 30 )
                 &&
             (this.player.y <= this.market.y + 30 && this.player.y >= this.market.y - 30)){
-                this.speak.y = this.market.y - 18
-                this.speak.x = this.market.x
-                this.speak.active && this.speak.anims.play('think', true);
-                this.speak.visible = true;
-                    if(this.keys.F && this.keys.F.isDown){
-                        GameMachine.Dialog(this, 'market');
-                    }
-    } else {
+        this.speak.y = this.market.y - 18
+        this.speak.x = this.market.x
+        this.speak.active && this.speak.anims.play('think', true);
+        this.speak.visible = true;
+            if(this.keys.F && this.keys.F.isDown){
+                GameMachine.speaker = 'market';
+                GameMachine.Dialog(this);
+            }
+    } else if((this.player.x <= this.hermit.x + 30 && this.player.x >= this.hermit.x - 30 )
+                &&
+            (this.player.y <= this.hermit.y + 30 && this.player.y >= this.hermit.y - 30)){
+        this.speak.y = this.hermit.y - 18
+        this.speak.x = this.hermit.x
+        this.speak.active && this.speak.anims.play('think', true);
+        this.speak.visible = true;
+            if(this.keys.F && this.keys.F.isDown){
+                GameMachine.speaker = 'hermit';
+                GameMachine.Dialog(this);
+            }
+    } else if((this.player.x <= this.guard.x + 30 && this.player.x >= this.guard.x - 30 )
+                &&
+            (this.player.y <= this.guard.y + 30 && this.player.y >= this.guard.y - 30)){
+        this.speak.y = this.guard.y - 18
+        this.speak.x = this.guard.x
+        this.speak.active && this.speak.anims.play('think', true);
+        this.speak.visible = true;
+        if(this.keys.F && this.keys.F.isDown){
+            GameMachine.speaker = 'guard';
+            GameMachine.Dialog(this);
+        }
+} else {
         this.speak.visible = false
     }
 

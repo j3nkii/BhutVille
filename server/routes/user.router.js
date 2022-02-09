@@ -16,6 +16,19 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
+router.post('/', (req, res, next) => {
+  console.log(req.body);
+
+  const queryText = `INSERT INTO "characters" (name, user_id, game_state)
+    VALUES ('butt', 7, '${req.body}') RETURNING id`;
+  pool
+    .query(queryText)
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.log('User registration failed: ', err);
+      res.sendStatus(500);
+    });
+});
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   const username = req.body.username;
