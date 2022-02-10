@@ -28,6 +28,11 @@ function RegisterForm() {
           {errors.registrationMessage}
         </h3>
       )}
+      {errors.loginMessage && (
+        <h3 className="alert" role="alert">
+          {errors.loginMessage}
+        </h3>
+      )}
       <div>
         <label htmlFor="username">
           Username:

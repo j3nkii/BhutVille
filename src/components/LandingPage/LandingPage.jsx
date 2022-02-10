@@ -55,7 +55,7 @@ function LandingPage() {
         </div>
         <div className="grid-col grid-col_4">
         {user.id
-          ? <h2>Welcome back {user.name}</h2>
+          ? <h2>Welcome back {user.username}</h2>
           : login 
             ? <LoginForm></LoginForm>:<>
             <RegisterForm />
