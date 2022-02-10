@@ -14,21 +14,20 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
+router.get('/load-game', rejectUnauthenticated, (req, res) => {
+  pool.query(`
+  SELECT "game_state" from "user"
+  WHERE id=$1
+  `, [req.user.id]).then(dbRes => {
+    console.log(dbRes);
+    res.send(dbRes.rows)
+  }).catch(err => {
+    console.error('loadgame failed', err);
+  })
+});
+
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
-router.post('/', (req, res, next) => {
-  console.log(req.body);
-
-  const queryText = `INSERT INTO "characters" (name, user_id, game_state)
-    VALUES ('butt', 7, '${req.body}') RETURNING id`;
-  pool
-    .query(queryText)
-    .then(() => res.sendStatus(201))
-    .catch((err) => {
-      console.log('User registration failed: ', err);
-      res.sendStatus(500);
-    });
-});
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   const username = req.body.username;
@@ -44,7 +43,7 @@ router.post('/register', (req, res, next) => {
       res.sendStatus(500);
     });
 });
-
+//update username
 router.put('/update/', rejectUnauthenticated, (req, res) => {{
   pool.query(`
   UPDATE "user"
@@ -57,6 +56,19 @@ router.put('/update/', rejectUnauthenticated, (req, res) => {{
   })
 }})
 
+//autosave router
+router.put('/update/autosave', rejectUnauthenticated, (req, res) => {{
+  pool.query(`
+  UPDATE "user"
+  SET game_state=$1
+  WHERE id=$2
+  `, [req.body.data, req.user.id]).then(dbres => {
+    res.sendStatus(200)
+  }).catch(err => {
+    console.error('UPDATE FAILED', err);
+  })
+}})
+//delete user
 router.delete('/delete/', rejectUnauthenticated, (req, res) => {
   pool.query(`
   DELETE from "user"

@@ -42,27 +42,20 @@ function preload (){
 
 
 function create (){
+    GameMachine.loadGame();
+
     this.input.keyboard.on('keydown-ENTER', function (event) {
         GameMachine.Dialog(this);
     });
-
+        //used for testing autoSave
     this.input.keyboard.on('keydown-Y', function (event) {
-        $.ajax({
-            method: 'POST',
-            url: '/api/user',
-            data:{ 
-                state: {
-                    ramen: GameMachine.ramen,
-                    market: GameMachine.market,
-                    hermit: GameMachine.hermit,
-                    guard: GameMachine.guard,
-                    player: GameMachine.player,
-                }
-            }
-        }).then(dbres => {
-            console.log(dbres);
-        })
+        GameMachine.autoSave();
     });
+        //load game
+    // this.input.keyboard.on('keydown-U', function (event) {
+    //     GameMachine.loadGame();
+    // });
+
     const map = this.make.tilemap({key: 'map'});
     const floorTiles = map.addTilesetImage('TilesetFloor', 'floor');
     const buildingTiles = map.addTilesetImage('TilesetHouse', 'house');
@@ -102,8 +95,7 @@ function create (){
     //this.physics.add.collider(this.player, this.ramen)
 
     //setting overlap
-    this.physics.add.overlap(this.box, this.ramen, () => {this.ramen.destroy(); this.speak.destroy()})
-    //this.physics.add.overlap(this.box, this.ramen, () => {this.ramen.destroy(); this.speak.destroy()})
+    this.physics.add.overlap(this.box, this.ramen, () => {this.ramen.destroy(); this.speak.destroy()});
     
     //controls
     cursors = this.input.keyboard.createCursorKeys();
@@ -127,7 +119,7 @@ function update (){
 
 
 
-    //used to speak to ramen
+    //used to speak to characters --- turn into function, pass in nearby char with "hitbox" style bodies
     if((this.player.x <= this.ramen.x + 30 && this.player.x >= this.ramen.x - 30 )
                 &&
             (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){

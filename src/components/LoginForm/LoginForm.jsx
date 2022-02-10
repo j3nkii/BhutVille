@@ -10,7 +10,6 @@ function LoginForm() {
 
   const login = (event) => {
     event.preventDefault();
-
     if (username && password) {
       dispatch({
         type: 'LOGIN',
@@ -23,6 +22,17 @@ function LoginForm() {
       dispatch({ type: 'LOGIN_INPUT_ERROR' });
     }
   }; // end login
+
+  const registerUser = (event) => {
+    event.preventDefault();
+    dispatch({
+      type: 'REGISTER',
+      payload: {
+        username: username,
+        password: password,
+      },
+    });
+  }; // end registerUser
 
   return (
     <form className="formPanel" onSubmit={login}>
@@ -57,7 +67,8 @@ function LoginForm() {
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+        <button className="btn" value="Log In" onClick={login}>Login</button>
+        <button className="btn" value="Register" onClick={registerUser}>Register</button>
       </div>
     </form>
   );

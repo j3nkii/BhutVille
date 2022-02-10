@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
+import { useSelector } from 'react-redux';
 
 // CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
+import LoginForm from '../LoginForm/LoginForm';
 
 function LandingPage() {
-  const [heading, setHeading] = useState('Welcome');
+  const user = useSelector((store) => store.user);
   const history = useHistory();
-
+  let login = true;
   const onLogin = (event) => {
     history.push('/login');
   };
-
+  console.log(user);
   return (
     <div className="container">
-      <h2>{heading}</h2>
+      <h2>Howdy Pal</h2>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
@@ -52,14 +54,20 @@ function LandingPage() {
           </p>
         </div>
         <div className="grid-col grid-col_4">
-          <RegisterForm />
-
-          <center>
-            <h4>Already a Member?</h4>
-            <button className="btn btn_sizeSm" onClick={onLogin}>
-              Login
-            </button>
-          </center>
+        {user.id
+          ? <h2>Welcome back {user.name}</h2>
+          : login 
+            ? <LoginForm></LoginForm>:<>
+            <RegisterForm />
+              <center>
+                <h4>Already a Member?</h4>
+                <button className="btn btn_sizeSm" onClick={onLogin}>
+                  Login
+                </button>
+                
+              </center>
+            </>
+        }
         </div>
       </div>
     </div>

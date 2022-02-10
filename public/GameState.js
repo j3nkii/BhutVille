@@ -4,13 +4,14 @@ const GameMachine = {
     ramen: {isSpeaking: false, hasMet: false},
     market: {isSpeaking: false, hasMet: false},
     hermit: {isSpeaking: false, hasMet: false},
-    guard: {isSpeaking: false, hasMet: false, hasSupplies:false},
+    guard: {isSpeaking: false, hasMet: false},
     player: {hasNote: false, hasSupplies: false, hasRamen:false, hasHermit: false},
     speaker: null,
     inDialog: false,
     Dialog: function(game){
         console.log(this.speaker);
         switch (this.speaker) {
+            //******************** RAMEN ********************\\
             case 'ramen':
                 if(this.ramen.isSpeaking){
                     this.dialog.destroy();
@@ -28,12 +29,14 @@ const GameMachine = {
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.ramen.hasMet = true;
                         this.player.hasNote = true;
+                        this.autoSave();
                     }else if(this.ramen.hasMet && this.player.hasSupplies){
                         this.dialog = game.add.text(0, 0, 
                             `You're the actual best! Here's some Ramen!
                             Hey you mind running this bowl over to my olf friend over there!? Thanks!`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasRamen = true;
+                        this.autoSave();
                     } else if(this.ramen.hasMet && this.player.hasNote){
                         console.log(true);
                         this.dialog = game.add.text(0, 0, 
@@ -42,6 +45,7 @@ const GameMachine = {
                     }
                 }
                 break;
+            //******************** MARKET ********************\\
             case 'market':
                 if(this.market.isSpeaking){
                     this.dialog.destroy();
@@ -57,6 +61,7 @@ const GameMachine = {
                         What?! No Money?! this aint a charity kid.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.market.hasMet = true;
+                        this.autoSave();
                     } else if(this.market.hasMet && this.player.hasNote){
                         this.dialog = game.add.text(0, 0, 
                             `Ah, look like you've made use of yourself. 
@@ -64,6 +69,7 @@ const GameMachine = {
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasSupplies = true;
+                        this.autoSave();
                     } else if(!this.market.hasMet && this.player.hasNote){
                         this.dialog = game.add.text(0, 0, 
                             `Ah yes! 'nother travler come through, eh? bet you could use some supplies!
@@ -71,6 +77,7 @@ const GameMachine = {
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasSupplies = true;
+                        this.autoSave();
                     } else if(this.market.hasMet && !this.player.hasNote){
                         console.log(true);
                         this.dialog = game.add.text(0, 0, 
@@ -79,6 +86,7 @@ const GameMachine = {
                     }
                 }
                 break;
+            //******************** GUARD ********************\\
             case 'guard':
                 if(this.guard.isSpeaking){
                     this.dialog.destroy();
@@ -93,30 +101,18 @@ const GameMachine = {
                         kick rocks mister`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.guard.hasMet = true;
+                        this.autoSave();
                     } else if(this.player.hasHermit){
                         this.dialog = game.add.text(0, 0, 
                             `oh! We've been expecting you Hermit! He's with you? Fine, go ahead.
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasSupplies = true;
-                        $.ajax({
-                            method: 'POST',
-                            url: '/api/user',
-                            data:{ 
-                                state: {
-                                    ramen: this.ramen,
-                                    market: this.market,
-                                    hermit: this.hermit,
-                                    guard: this.guard,
-                                    player: this.player,
-                                }
-                            }
-                        }).then(dbres => {
-                            console.log(dbres);
-                        })
+                        this.autoSave();
                     }
                 }
                 break;
+            //******************** HERMIT ********************\\
             case 'hermit':
                 console.log('hermit say hi');
                 if(this.hermit.isSpeaking){
@@ -132,12 +128,14 @@ const GameMachine = {
                         trying to see the king huh? Tell ya what, get me some food and i'll get ya in.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.hermit.hasMet = true;
+                        this.autoSave();
                     } else if(this.hermit.hasMet && this.player.hasRamen){
                         this.dialog = game.add.text(0, 0, 
                             `ah yes, the best Ramen in all of BhutVille!
                             NomNomNomNomNom... sLUUURRRRPPP, ah yes, follow me.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasHermit = true;
+                        this.autoSave();
                     } else if(!this.hermit.hasMet && this.player.hasRamen){
                         this.dialog = game.add.text(0, 0, 
                             `Ah he's got a heart of gold that one. You looking to get in those gates?
@@ -145,6 +143,7 @@ const GameMachine = {
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasHermit = true;
+                        this.autoSave();
                     } else if(this.hermit.hasMet && !this.player.hasRamen){
                         console.log(true);
                         this.dialog = game.add.text(0, 0, 
@@ -154,9 +153,42 @@ const GameMachine = {
                 }
                 break;
             default:
+                console.log('edge case found'); //used for err handling
                 break;
         }
     },
+    autoSave: function (){
+        //when the game loads, nobody will be speaking
+        const data = JSON.stringify({
+            ramen: {...GameMachine.ramen, isSpeaking: false},
+            market: {...GameMachine.market, isSpeaking: false},
+            hermit: {...GameMachine.hermit, isSpeaking: false},
+            guard: {...GameMachine.guard, isSpeaking: false},
+            player: {...GameMachine.player, isSpeaking: false}
+        })
+        $.ajax({
+            method: 'PUT',
+            url: '/api/user/update/autosave',
+            data: {data}
+        }).then(res => {
+            console.log(res);
+        })
+    },
+    loadGame: function(){
+        $.ajax({
+            method: 'GET',
+            url: '/api/user/load-game',
+        }).then(dbres => {
+            res = dbres[0].game_state
+            console.log(res);
+            this.guard = res.guard;
+            this.hermit = res.hermit;
+            this.market = res.market;
+            this.player = res.player;
+            this.ramen = res.ramen;
+
+        });
+    }
 }
 
 //console.log(this.save);

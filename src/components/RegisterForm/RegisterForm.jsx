@@ -9,7 +9,6 @@ function RegisterForm() {
 
   const registerUser = (event) => {
     event.preventDefault();
-
     dispatch({
       type: 'REGISTER',
       payload: {
@@ -19,6 +18,8 @@ function RegisterForm() {
     });
   }; // end registerUser
 
+
+  
   return (
     <form className="formPanel" onSubmit={registerUser}>
       <h2>Register User</h2>
