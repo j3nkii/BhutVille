@@ -4,17 +4,17 @@ import './LandingPage.css';
 import { useSelector } from 'react-redux';
 
 // CUSTOM COMPONENTS
-import RegisterForm from '../RegisterForm/RegisterForm';
+import QuickLoadChar from '../QuickLoadChar/QuickLoadChar'
 import LoginForm from '../LoginForm/LoginForm';
 
 function LandingPage() {
   const user = useSelector((store) => store.user);
+  const character = useSelector((store) => store.character);
   const history = useHistory();
-  let login = true;
   const onLogin = (event) => {
     history.push('/login');
   };
-  console.log(user);
+  console.log('*******CHAR', character);
   return (
     <div className="container">
       <h2>About BhūtVille:</h2>
@@ -32,6 +32,7 @@ function LandingPage() {
             what was going on with my code, as we're doing full stack stuff and not game dev stuff, they know syntax and logic mistakes when they see them.
             <br></br><br></br>
             Special shout out to Tiled and Pixel Boy.
+            </p>
             <br></br><br></br>
             The tech used here was:
               <ul>
@@ -41,22 +42,12 @@ function LandingPage() {
                 <li>Postgres</li>
                 <li>React</li>
               </ul>
-          </p>
+          
         </div>
         <div className="grid-col grid-col_4">
         {user.id
-          ? <h2>Welcome back {user.username}</h2>
-          : login 
-            ? <LoginForm></LoginForm>:<>
-            <RegisterForm />
-              <center>
-                <h4>Already a Member?</h4>
-                <button className="btn btn_sizeSm" onClick={onLogin}>
-                  Login
-                </button>
-                
-              </center>
-            </>
+          ? <QuickLoadChar />
+          : <LoginForm /> 
         }
         </div>
       </div>

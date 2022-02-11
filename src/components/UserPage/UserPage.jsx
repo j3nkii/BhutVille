@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useDispatch, useSelector} from 'react-redux';
+import QuickLoadChar from '../QuickLoadChar/QuickLoadChar'
 
 function UserPage() {
   // add an edit and delete for user to compl CRUD
@@ -39,6 +40,7 @@ function UserPage() {
       <button className="btn" onClick={deleteUser}>Delete User</button>
       <LogOutButton className="btn" />
       <div><button className="btn"><a href="./game.html?char=1" target="blank">TO BHUTVILLE GAME</a></button></div>
+      <QuickLoadChar />
     </div>
   );
 }

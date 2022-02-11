@@ -75,6 +75,7 @@ const GameMachine = {
                             Oh, whats that note you have there? Goodness! Quick take these!
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.market.hasMet = true;
                         this.player.hasSupplies = true;
                         this.autoSave();
                     } else if(this.market.hasMet && !this.player.hasNote){
@@ -107,6 +108,7 @@ const GameMachine = {
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasSupplies = true;
+                        this.guard.hasMet = true;
                         this.autoSave();
                     }
                 }
@@ -140,6 +142,7 @@ const GameMachine = {
                             I've been on the road for a long time, i could use the company
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.hermit.hasMet = true;
                         this.player.hasHermit = true;
                         this.autoSave();
                     } else if(this.hermit.hasMet && !this.player.hasRamen){
@@ -178,20 +181,19 @@ const GameMachine = {
     loadGame: function(){
         axios({
             method: 'GET',
-            url: `/api/user/load-game${queryString}`,
+            url: `/api/char/load-game${queryString}`,
         }).then(dbres => {
-            res = dbres
-            console.log(res);
-            this.guard = res.guard;
-            this.hermit = res.hermit;
-            this.market = res.market;
-            this.player = res.player;
-            this.ramen = res.ramen;
-
+            if(dbres.data.game_state){ //if not new game, load game
+                res = dbres.data.game_state
+                console.log(res);
+                this.guard = res.guard;
+                this.hermit = res.hermit;
+                this.market = res.market;
+                this.player = res.player;
+                this.ramen = res.ramen;
+            }
         }).catch(err => {
             console.log('err in loadgame', err);
         })
     }
 }
-
-//console.log(this.save);
