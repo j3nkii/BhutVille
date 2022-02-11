@@ -1,5 +1,5 @@
-//attempt at state machine,
-//will move text to a new file ... eventually
+//grabs query string
+const queryString = window.location.search;
 const GameMachine = {
     ramen: {isSpeaking: false, hasMet: false},
     market: {isSpeaking: false, hasMet: false},
@@ -9,7 +9,6 @@ const GameMachine = {
     speaker: null,
     inDialog: false,
     Dialog: function(game){
-        console.log(this.speaker);
         switch (this.speaker) {
             //******************** RAMEN ********************\\
             case 'ramen':
@@ -17,7 +16,7 @@ const GameMachine = {
                     this.dialog.destroy();
                     this.ramen.isSpeaking = false;
                     this.inDialog = false;
-                    this.speaker = null
+                    this.speaker = null;
                 } else {
                     this.ramen.isSpeaking = true;
                     this.inDialog = true;
@@ -114,7 +113,6 @@ const GameMachine = {
                 break;
             //******************** HERMIT ********************\\
             case 'hermit':
-                console.log('hermit say hi');
                 if(this.hermit.isSpeaking){
                     this.dialog.destroy();
                     this.hermit.isSpeaking = false;
@@ -159,14 +157,17 @@ const GameMachine = {
     },
     autoSave: function (){
         //when the game loads, nobody will be speaking
-        const data = JSON.stringify({
+
+                    /////add game.dialog?
+
+        const data = {
             ramen: {...GameMachine.ramen, isSpeaking: false},
             market: {...GameMachine.market, isSpeaking: false},
             hermit: {...GameMachine.hermit, isSpeaking: false},
             guard: {...GameMachine.guard, isSpeaking: false},
             player: {...GameMachine.player, isSpeaking: false}
-        })
-        $.ajax({
+        }
+        axios({
             method: 'PUT',
             url: '/api/user/update/autosave',
             data: {data}
@@ -175,11 +176,11 @@ const GameMachine = {
         })
     },
     loadGame: function(){
-        $.ajax({
+        axios({
             method: 'GET',
-            url: '/api/user/load-game',
+            url: `/api/user/load-game${queryString}`,
         }).then(dbres => {
-            res = dbres[0].game_state
+            res = dbres
             console.log(res);
             this.guard = res.guard;
             this.hermit = res.hermit;
@@ -187,7 +188,9 @@ const GameMachine = {
             this.player = res.player;
             this.ramen = res.ramen;
 
-        });
+        }).catch(err => {
+            console.log('err in loadgame', err);
+        })
     }
 }
 

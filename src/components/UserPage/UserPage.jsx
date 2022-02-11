@@ -38,7 +38,7 @@ function UserPage() {
       <button className="btn" onClick={() => setEdit(!edit)}>{edit ? 'Cancel Edit' : 'Edit User'}</button>
       <button className="btn" onClick={deleteUser}>Delete User</button>
       <LogOutButton className="btn" />
-      <div><button className="btn"><a href="./game.html" target="blank">TO BHUTVILLE GAME</a></button></div>
+      <div><button className="btn"><a href="./game.html?char=1" target="blank">TO BHUTVILLE GAME</a></button></div>
     </div>
   );
 }

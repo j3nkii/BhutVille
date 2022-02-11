@@ -17,40 +17,30 @@ function LandingPage() {
   console.log(user);
   return (
     <div className="container">
-      <h2>Howdy Pal</h2>
+      <h2>About BhūtVille:</h2>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
-            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
-            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
-            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
-            elementum eget. Praesent efficitur eros vitae nunc interdum, eu
-            interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur.
-            Quisque eget eros metus. Vestibulum bibendum fringilla nibh a
-            luctus. Duis a sapien metus.
-          </p>
-
-          <p>
-            Praesent consectetur orci dui, id elementum eros facilisis id. Sed
-            id dolor in augue porttitor faucibus eget sit amet ante. Nunc
-            consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut
-            finibus metus facilisis. Nullam eget lectus non urna rhoncus
-            accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
-            euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed
-            lobortis augue mi vel felis. Duis ultrices sapien at est convallis
-            congue.
-          </p>
-
-          <p>
-            Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.
-            Suspendisse posuere dapibus maximus. Aliquam vitae felis libero. In
-            vehicula sapien at semper ultrices. Vivamus sed feugiat libero. Sed
-            sagittis neque id diam euismod, ut egestas felis ultricies. Nullam
-            non fermentum mauris. Sed in enim ac turpis faucibus pretium in sit
-            amet nisi.
+            I created this game out of pure nostalgia. I miss the old days of a long road trip, playing Zelda Oracle of Seasons.
+            So i figured why not try and recreate one? This was a big stretch for myself since I didn't any experience with game design
+            or development. Through this project I was introduced to Object Oriented Programing along with the concept of State Machines.
+            I was also stretched for style design, since most of my past projects have not gone deep into prettifying. 
+            <br></br><br></br>
+            To get over these hurdles I had to heavily rely on the Phaser community as well as the Phaser Docs. Luckily the Docs were well
+            written and the community is active! I also had the help of my Instructor as well as my cohort mates, granted they didn't know 
+            what was going on with my code, as we're doing full stack stuff and not game dev stuff, they know syntax and logic mistakes when they see them.
+            <br></br><br></br>
+            Special shout out to Tiled and Pixel Boy.
+            <br></br><br></br>
+            The tech used here was:
+              <ul>
+                <li>Phaser</li>
+                <li>Node.js</li>
+                <li>JavaScript</li>
+                <li>Postgres</li>
+                <li>React</li>
+              </ul>
           </p>
         </div>
         <div className="grid-col grid-col_4">
