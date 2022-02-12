@@ -14,7 +14,7 @@ import Footer from '../Footer/Footer';
 import UserPage from '../UserPage/UserPage';
 import LandingPage from '../LandingPage/LandingPage';
 
-import './App.css';
+//import './App.css';
 
 function App() {
   const dispatch = useDispatch();

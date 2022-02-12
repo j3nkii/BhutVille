@@ -42,6 +42,7 @@ function preload (){
     this.load.spritesheet('market', 'assets/MarketSprite.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('hermit', 'assets/hermit.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('guard', 'assets/knight.png', { frameWidth: 16, frameHeight: 16 });
+    this.load.spritesheet('puppo', 'assets/puppo.png', { frameWidth: 16, frameHeight: 16 });
 }
 
 
@@ -57,12 +58,6 @@ function create (){
     this.input.keyboard.on('keydown-Y', function (event) {
         GameMachine.autoSave();
     });
-        //load game
-    // this.input.keyboard.on('keydown-U', function (event) {
-    //     GameMachine.loadGame();
-    // });
-
-
 
     //map
     const map = this.make.tilemap({key: 'map'});
@@ -85,8 +80,6 @@ function create (){
     const layer10 = map.createLayer('buildings', [buildingTiles, elementTiles], 0, 0);
     const layer11 = map.createLayer('towertop', [buildingTiles, elementTiles], 0, 0);
 
-
-
     //ramen sprite
     this.ramen = this.physics.add.sprite(80, 120, 'ramen');
     this.ramen.setCollideWorldBounds(true);
@@ -102,6 +95,9 @@ function create (){
     //add player sprite
     this.player = this.physics.add.sprite(225, 290, 'dude');
     this.player.setCollideWorldBounds(true);
+    //add puppo sprite
+    this.puppo = this.physics.add.sprite(225, 90, 'puppo');
+    this.puppo.setCollideWorldBounds(true);
     //speakin icon
     this.speak = this.physics.add.sprite(0, 0, 'speak');
     //hitbox
@@ -158,6 +154,8 @@ function update (){
 
 
     //used to speak to characters --- turn into function, pass in nearby char with "hitbox" style bodies
+
+                //set *new*inrange* overlap and pass it to a function with logic below
     if((this.player.x <= this.ramen.x + 30 && this.player.x >= this.ramen.x - 30 )
                 &&
             (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){
@@ -168,6 +166,7 @@ function update (){
             if(this.keys.F && this.keys.F.isDown){
                 GameMachine.speaker = 'ramen';
                 GameMachine.Dialog(this);
+                console.log(this.keys);
             }
     } else if((this.player.x <= this.market.x + 30 && this.player.x >= this.market.x - 30 )
                 &&

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import './LandingPage.css';
+//import './LandingPage.css';
 import { useSelector } from 'react-redux';
 
 // CUSTOM COMPONENTS
