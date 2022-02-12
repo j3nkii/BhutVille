@@ -27,10 +27,16 @@ var game = new Phaser.Game(config);
 
 
 function preload (){
+    //maps
+    this.load.tilemapTiledJSON('map', 'assets/bhutvillev3.json');
     this.load.image('floor', 'assets/TilesetFloor.png');
     this.load.image('house', 'assets/TilesetHouse.png');
+    this.load.image('water', 'assets/TilesetWater.png');
+    this.load.image('nature', 'assets/TilesetNature.png');
+    this.load.image('element', 'assets/TilesetElement.png');
+
+    //sprites
     this.load.spritesheet('speak', 'assets/DialogInfo.png', { frameWidth: 20, frameHeight: 16 });
-    this.load.tilemapTiledJSON('map', 'assets/bhutvillev2.json');
     this.load.spritesheet('dude', 'assets/SpriteSheet.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('ramen', 'assets/oldMan3.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('market', 'assets/MarketSprite.png', { frameWidth: 16, frameHeight: 16 });
@@ -56,43 +62,75 @@ function create (){
     //     GameMachine.loadGame();
     // });
 
+
+
+    //map
     const map = this.make.tilemap({key: 'map'});
+    //tilesets
     const floorTiles = map.addTilesetImage('TilesetFloor', 'floor');
     const buildingTiles = map.addTilesetImage('TilesetHouse', 'house');
-    const layer1 = map.createLayer('Tile Layer 1', floorTiles, 0, 0)
-    const layer2 = map.createLayer('fence', buildingTiles, 0, 0)
-    const layer3 = map.createLayer('Tile Layer 2', buildingTiles, 0, 0)
+    const waterTiles = map.addTilesetImage('TilesetWater', 'water');
+    const natureTiles = map.addTilesetImage('TilesetNature', 'nature');
+    const elementTiles = map.addTilesetImage('TilesetElement', 'element');
+    //layers
+    const layer1 = map.createLayer('grass', [floorTiles, waterTiles], 0, 0);
+    const layer2 = map.createLayer('fence', [buildingTiles, waterTiles, elementTiles], 0, 0);
+    const layer3 = map.createLayer('tree1', [buildingTiles,floorTiles, natureTiles], 0, 0)
+    const layer4 = map.createLayer('tree2', [natureTiles], 0, 0);
+    const layer5 = map.createLayer('tree3', natureTiles, 0, 0);
+    const layer6 = map.createLayer('tree4', natureTiles, 0, 0);
+    const layer7 = map.createLayer('tree5', natureTiles, 0, 0);
+    const layer8 = map.createLayer('tree6', natureTiles, 0, 0);
+    const layer9 = map.createLayer('tree7', natureTiles, 0, 0);
+    const layer10 = map.createLayer('buildings', [buildingTiles, elementTiles], 0, 0);
+    const layer11 = map.createLayer('towertop', [buildingTiles, elementTiles], 0, 0);
 
-    //add player sprite
-    this.player = this.physics.add.sprite(60, 60, 'dude');
-    this.player.setCollideWorldBounds(true);
+
+
     //ramen sprite
-    this.ramen = this.physics.add.sprite(120, 60, 'ramen');
+    this.ramen = this.physics.add.sprite(80, 120, 'ramen');
     this.ramen.setCollideWorldBounds(true);
     //market man sprite
-    this.market = this.physics.add.sprite(200, 100, 'market');
+    this.market = this.physics.add.sprite(430, 245, 'market');
     this.market.setCollideWorldBounds(true);
     //market man sprite
-    this.hermit = this.physics.add.sprite(300, 200, 'hermit');
+    this.hermit = this.physics.add.sprite(200, 80, 'hermit');
     this.hermit.setCollideWorldBounds(true);
     //market man sprite
-    this.guard = this.physics.add.sprite(500, 200, 'guard');
+    this.guard = this.physics.add.sprite(480, 60, 'guard');
     this.guard.setCollideWorldBounds(true);
+    //add player sprite
+    this.player = this.physics.add.sprite(225, 290, 'dude');
+    this.player.setCollideWorldBounds(true);
     //speakin icon
     this.speak = this.physics.add.sprite(0, 0, 'speak');
-    
     //hitbox
     this.box = this.add.rectangle(this.player.x, this.player.y , 48, 8);
     this.physics.add.existing(this.box);
 
     //setting collision
+    layer1.setCollisionByProperty({collide: true})
     layer2.setCollisionByProperty({collide: true})
     layer3.setCollisionByProperty({collide: true})
+    layer4.setCollisionByProperty({collide: true})
+    layer5.setCollisionByProperty({collide: true})
+    layer6.setCollisionByProperty({collide: true})
+    layer7.setCollisionByProperty({collide: true})
+    layer8.setCollisionByProperty({collide: true})
+    layer9.setCollisionByProperty({collide: true})
+    layer10.setCollisionByProperty({collide: true})
+    layer11.setCollisionByProperty({collide: true})
+    this.physics.add.collider(this.player, layer1)
     this.physics.add.collider(this.player, layer2)
-    this.physics.add.collider(this.ramen, layer2)
     this.physics.add.collider(this.player, layer3)
-    this.physics.add.collider(this.ramen, layer3)
-    //this.physics.add.collider(this.player, this.ramen)
+    this.physics.add.collider(this.player, layer4)
+    this.physics.add.collider(this.player, layer5)
+    this.physics.add.collider(this.player, layer6)
+    this.physics.add.collider(this.player, layer7)
+    this.physics.add.collider(this.player, layer8)
+    this.physics.add.collider(this.player, layer9)
+    this.physics.add.collider(this.player, layer10)
+    this.physics.add.collider(this.player, layer11)
 
     //setting overlap
     this.physics.add.overlap(this.box, this.ramen, () => {this.ramen.destroy(); this.speak.destroy()});

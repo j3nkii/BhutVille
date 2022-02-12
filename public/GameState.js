@@ -9,6 +9,7 @@ const GameMachine = {
     speaker: null,
     inDialog: false,
     Dialog: function(game){
+        console.log(game);
         switch (this.speaker) {
             //******************** RAMEN ********************\\
             case 'ramen':
@@ -21,25 +22,26 @@ const GameMachine = {
                     this.ramen.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.ramen.hasMet) {
-                        this.dialog = game.add.text(0, 0, `
-                            Welcome! What can i get for you? Oh! no money! 
-                            Take this note to the market and bring me back the supplies
-                            and i'll feed ya!`,
+                        this.dialog = game.add.text(0, 0, 
+`Welcome! What can i get for you? Oh! no money! 
+Take this note to the market and bring me back the supplies
+and i'll feed ya!`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.ramen.hasMet = true;
                         this.player.hasNote = true;
                         this.autoSave();
                     }else if(this.ramen.hasMet && this.player.hasSupplies){
                         this.dialog = game.add.text(0, 0, 
-                            `You're the actual best! Here's some Ramen!
-                            Hey you mind running this bowl over to my olf friend over there!? Thanks!`,
+`You're the actual best! Here's some Ramen!
+Hey you mind running this bowl over to my 
+old friend over there!? Thanks!`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasRamen = true;
                         this.autoSave();
                     } else if(this.ramen.hasMet && this.player.hasNote){
                         console.log(true);
                         this.dialog = game.add.text(0, 0, 
-                            `The market is just west of here, you literally cannot miss it...`,
+`The market is just east of here, you literally cannot miss it...`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                     }
                 }
@@ -55,25 +57,27 @@ const GameMachine = {
                     this.market.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.market.hasMet && !this.player.hasNote) {
-                        this.dialog = game.add.text(0, 0, `
-                        Ah yes! 'nother travler come through, eh? bet you could use some supplies! 
-                        What?! No Money?! this aint a charity kid.`,
+                        this.dialog = game.add.text(0, 0, 
+`Ah yes! 'nother travler come through, eh? 
+bet you could use some supplies! 
+What?! No Money?! this aint a charity kid.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.market.hasMet = true;
                         this.autoSave();
                     } else if(this.market.hasMet && this.player.hasNote){
                         this.dialog = game.add.text(0, 0, 
-                            `Ah, look like you've made use of yourself. 
-                            Here's everything on the list, good luck out there...
+`Ah, look like you've made use of yourself. 
+Here's everything on the list, good luck out there...
                             `,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasSupplies = true;
                         this.autoSave();
                     } else if(!this.market.hasMet && this.player.hasNote){
                         this.dialog = game.add.text(0, 0, 
-                            `Ah yes! 'nother travler come through, eh? bet you could use some supplies!
-                            Oh, whats that note you have there? Goodness! Quick take these!
-                            `,
+`Ah yes! 'nother travler come through, eh? 
+bet you could use some supplies!
+Oh, whats that note you have there? 
+Goodness! Quick take these!`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.market.hasMet = true;
                         this.player.hasSupplies = true;
@@ -81,7 +85,7 @@ const GameMachine = {
                     } else if(this.market.hasMet && !this.player.hasNote){
                         console.log(true);
                         this.dialog = game.add.text(0, 0, 
-                            `who raised you? I said beat it.`,
+`who raised you? I said beat it.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                     }
                 }
@@ -97,15 +101,15 @@ const GameMachine = {
                     this.guard.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.player.hasHermit) {
-                        this.dialog = game.add.text(0, 0, `
-                        kick rocks mister`,
+                        this.dialog = game.add.text(0, 0, 
+`kick rocks mister`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.guard.hasMet = true;
                         this.autoSave();
                     } else if(this.player.hasHermit){
                         this.dialog = game.add.text(0, 0, 
-                            `oh! We've been expecting you Hermit! He's with you? Fine, go ahead.
-                            `,
+`Oh! We've been expecting you Hermit! 
+He's with you? Fine, go ahead.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasSupplies = true;
                         this.guard.hasMet = true;
@@ -124,23 +128,23 @@ const GameMachine = {
                     this.hermit.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.hermit.hasMet && !this.player.hasRamen) {
-                        this.dialog = game.add.text(0, 0, `
-                        trying to see the king huh? Tell ya what, get me some food and i'll get ya in.`,
+                        this.dialog = game.add.text(0, 0, 
+`trying to see the king huh? 
+Tell ya what, get me some food and i'll get ya in.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.hermit.hasMet = true;
                         this.autoSave();
                     } else if(this.hermit.hasMet && this.player.hasRamen){
                         this.dialog = game.add.text(0, 0, 
-                            `ah yes, the best Ramen in all of BhutVille!
-                            NomNomNomNomNom... sLUUURRRRPPP, ah yes, follow me.`,
+`ah yes, the best Ramen in all of BhutVille!
+NomNomNomNomNom... sLUUURRRRPPP, ah yes, follow me.`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.player.hasHermit = true;
                         this.autoSave();
                     } else if(!this.hermit.hasMet && this.player.hasRamen){
                         this.dialog = game.add.text(0, 0, 
-                            `Ah he's got a heart of gold that one. You looking to get in those gates?
-                            I've been on the road for a long time, i could use the company
-                            `,
+`Ah he's got a heart of gold that one. You looking to get in those gates?
+I've been on the road for a long time, i could use the company`,
                             { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                         this.hermit.hasMet = true;
                         this.player.hasHermit = true;
