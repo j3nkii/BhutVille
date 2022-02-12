@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 import { useSelector } from 'react-redux';
@@ -10,11 +10,6 @@ import LoginForm from '../LoginForm/LoginForm';
 function LandingPage() {
   const user = useSelector((store) => store.user);
   const character = useSelector((store) => store.character);
-  const history = useHistory();
-  const onLogin = (event) => {
-    history.push('/login');
-  };
-  console.log('*******CHAR', character);
   return (
     <div className="container">
       <h2>About BhūtVille:</h2>

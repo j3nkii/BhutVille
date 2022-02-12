@@ -172,7 +172,7 @@ const GameMachine = {
         }
         axios({
             method: 'PUT',
-            url: '/api/user/update/autosave',
+            url: `/api/char/update/autosave${queryString}`,
             data: {data}
         }).then(res => {
             console.log(res);
@@ -191,6 +191,7 @@ const GameMachine = {
                 this.market = res.market;
                 this.player = res.player;
                 this.ramen = res.ramen;
+                console.log('****LOADED GAME****');
             }
         }).catch(err => {
             console.log('err in loadgame', err);

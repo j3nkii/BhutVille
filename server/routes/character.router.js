@@ -9,25 +9,26 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
-router.get('/', rejectUnauthenticated, (req, res) => {
-    // Send back user object from the session (previously queried from the database)
-    res.send(req.user);
-});
+// router.get('/', rejectUnauthenticated, (req, res) => {
+//     // Send back user object from the session (previously queried from the database)
+//     res.send(req.user);
+// });
+
 //grabs name and id of Characters
 router.get('/', (req, res) => {
-    console.log(req.query.char);
     pool.query(`
         SELECT "characters"."id", "characters"."name" from "user"
         JOIN "characters"
             ON "user"."id" = "characters"."user_id"
         WHERE "user_id"=$1;
     `, [req.user.id]).then(dbRes => {
-        console.log('************DBRes',dbRes.rows[0]);
-        res.send(dbRes.rows[0])
+        console.log('************SEDING CHARACTERS TO CLIENT',dbRes.rows);
+        res.send(dbRes.rows)
     }).catch(err => {
         console.error('loadgame failed', err);
     })
 });
+
 //retrives game state
 router.get('/load-game', (req, res) => {
     console.log(req.query.char);
@@ -35,9 +36,9 @@ router.get('/load-game', (req, res) => {
         SELECT "game_state" from "user"
         JOIN "characters"
             ON "user"."id" = "characters"."user_id"
-        WHERE "user_id"=$1;
-    `, [req.user.id]).then(dbRes => {
-        console.log('************DBRes',dbRes.rows[0]);
+        WHERE "characters"."id"=$1 AND "user"."id"=$2;
+    `, [req.query.char, req.user.id ]).then(dbRes => {
+        console.log('************LOADGAME DATA',dbRes.rows);
         res.send(dbRes.rows[0])
     }).catch(err => {
         console.error('loadgame failed', err);
@@ -46,11 +47,12 @@ router.get('/load-game', (req, res) => {
 
 //autosave router
 router.put('/update/autosave', rejectUnauthenticated, (req, res) => {
+    console.log(req.query.char);
     pool.query(`
         UPDATE "characters"
         SET game_state=$1
-        WHERE user_id=$2
-    `, [req.body.data, req.user.id]).then(dbres => {
+        WHERE user_id=$2 AND "characters"."id"=$3
+    `, [req.body.data, req.user.id, req.query.char]).then(dbres => {
         console.log('*****************AUTOSAVE', req.body);
         res.sendStatus(200)
     }).catch(err => {
@@ -59,12 +61,13 @@ router.put('/update/autosave', rejectUnauthenticated, (req, res) => {
 });
 
 //autosave router
-router.put('/update/new-char', rejectUnauthenticated, (req, res) => {
+router.post('/add-char', rejectUnauthenticated, (req, res) => {
+    console.log('*********req.body', req.body);
     pool.query(`
         INSERT INTO "characters" (name, user_id)
-            VALUES
-    `, [req.body.data, req.user.id]).then(dbres => {
-        console.log('*****************AUTOSAVE', req.body);
+            VALUES ($1, $2)
+    `, [req.body.name, req.user.id]).then(dbres => {
+        console.log('*****************ADDCHAR', req.body);
         res.sendStatus(200)
     }).catch(err => {
         console.error('UPDATE FAILED', err);

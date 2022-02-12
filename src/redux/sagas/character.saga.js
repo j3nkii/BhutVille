@@ -2,7 +2,6 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
 function* fetchChars(action){
-    console.log('in fetch chars saga');
     try {
         const config = {
         headers: { 'Content-Type': 'application/json' },
@@ -15,8 +14,22 @@ function* fetchChars(action){
     }
 }
 
+function* addChars(action){
+    try {
+        const config = {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        };
+        yield axios.post(`api/char/add-char`, {name: action.payload}, config);
+        yield put({type:'FETCH_CHAR'})
+    } catch (error) {
+    console.log('chars get request failed', error);
+    }
+}
+
 function* characterSaga() {
     yield takeLatest('FETCH_CHAR', fetchChars);
+    yield takeLatest('ADD_CHAR', addChars);
 }
 
 export default characterSaga;
