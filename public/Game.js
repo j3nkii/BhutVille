@@ -22,7 +22,7 @@ var config = {
 };//end config
 var cursors;
 var keys;
-var game = new Phaser.Game(config);
+var BhutVille = new Phaser.Game(config);
 
 
 
@@ -49,15 +49,11 @@ function preload (){
 
 
 function create (){
-    GameMachine.loadGame();
+    GameMachine.loadGame(this);
+    this.keys = this.input.keyboard.addKeys('W,A,S,D')
 
-    this.input.keyboard.on('keydown-ENTER', function (event) {
+    this.input.keyboard.on('keydown-F', function (event) {
         GameMachine.Dialog(this);
-        this.hermit.moves();
-    });
-        //used for testing autoSave
-    this.input.keyboard.on('keydown-Y', function (event) {
-        GameMachine.autoSave();
     });
 
     //map
@@ -70,6 +66,7 @@ function create (){
     const elementTiles = map.addTilesetImage('TilesetElement', 'element');
     //layers
     const layer1 = map.createLayer('grass', [floorTiles, waterTiles], 0, 0);
+    GameMachine.layerb = map.createLayer('barrier', [waterTiles], 0, 0);
     const layer2 = map.createLayer('fence', [buildingTiles, waterTiles, elementTiles], 0, 0);
     const layer3 = map.createLayer('tree1', [buildingTiles,floorTiles, natureTiles], 0, 0)
     const layer4 = map.createLayer('tree2', [natureTiles], 0, 0);
@@ -80,7 +77,10 @@ function create (){
     const layer9 = map.createLayer('tree7', natureTiles, 0, 0);
     const layer10 = map.createLayer('buildings', [buildingTiles, elementTiles], 0, 0);
     const layer11 = map.createLayer('towertop', [buildingTiles, elementTiles], 0, 0);
-
+    GameMachine.layer12 = map.createLayer('doorbackground', [buildingTiles, floorTiles], 0, 0);
+    GameMachine.layer13 = map.createLayer('openDoor', [buildingTiles, floorTiles], 0, 0);
+    GameMachine.layer12.visible = false;
+    GameMachine.layer13.visible = false;
     //ramen sprite
     this.ramen = this.physics.add.sprite(80, 120, 'ramen');
     this.ramen.setCollideWorldBounds(true);
@@ -99,16 +99,16 @@ function create (){
     //add puppo sprite
     this.puppo = this.physics.add.sprite(225, 90, 'puppo');
     this.puppo.setCollideWorldBounds(true);
-    if(this.puppo.x === 225){
-        this.physics.moveTo(this.puppo, 230, 90);
-    } else if(this.puppo.x === 230){
-        this.physics.moveTo(this.puppo, 225, 90);
-    }
     //speakin icon
     this.speak = this.physics.add.sprite(0, 0, 'speak');
     //hitbox
     this.box = this.add.rectangle(this.player.x, this.player.y , 48, 8);
     this.physics.add.existing(this.box);
+    //gate barricade
+    this.gate = this.add.rectangle(450, 0, 80, 65);
+    this.physics.add.existing(this.gate);
+    this.gate.body.immovable = true
+    console.log(this.gate);
 
     //setting collision
     layer1.setCollisionByProperty({collide: true})
@@ -122,6 +122,7 @@ function create (){
     layer9.setCollisionByProperty({collide: true})
     layer10.setCollisionByProperty({collide: true})
     layer11.setCollisionByProperty({collide: true})
+    this.physics.add.collider(this.player, this.gate)
     this.physics.add.collider(this.player, layer1)
     this.physics.add.collider(this.player, layer2)
     this.physics.add.collider(this.player, layer3)
@@ -160,7 +161,16 @@ function create (){
 
 
 function update (){
-    if(this.hermit.x === 400){this.hermit.body.stop();}
+
+    if(GameMachine.player.hasHermit && !GameMachine.hermit.isSpeaking){
+        if(Math.ceil(this.hermit.x) >= 495 && Math.ceil(this.hermit.y) >= 45){
+            GameMachine.hermit.isReady = true;
+            this.hermit.setVelocity(0)
+        } else if(!GameMachine.hermit.isReady){
+            this.physics.moveTo(this.hermit, 496, 46, 90)
+        }
+    }
+
     if(this.puppo.x === 225){
         this.physics.moveTo(this.puppo, 360, 90, 30);
         this.puppo.anims.play('right', true);
@@ -170,7 +180,7 @@ function update (){
         this.puppo.anims.play('right', true);
         this.puppo.flipX = true;
     }
-    this.keys = GameMachine.inDialog ? this.input.keyboard.addKeys('W,A,S,D') : this.input.keyboard.addKeys('W,A,S,D,F');
+    // this.keys = GameMachine.inDialog ? this.input.keyboard.addKeys('W,A,S,D') : this.input.keyboard.addKeys('W,A,S,D,F');
     //move dialog indicator around with ramen
 
 
@@ -185,11 +195,7 @@ function update (){
         this.speak.x = this.ramen.x
         this.speak.active && this.speak.anims.play('think', true);
         this.speak.visible = true;
-            if(this.keys.F && this.keys.F.isDown){
-                GameMachine.speaker = 'ramen';
-                GameMachine.Dialog(this);
-                console.log(this.keys);
-            }
+        GameMachine.speaker = 'ramen';
     } else if((this.player.x <= this.market.x + 30 && this.player.x >= this.market.x - 30 )
                 &&
             (this.player.y <= this.market.y + 30 && this.player.y >= this.market.y - 30)){
@@ -197,10 +203,7 @@ function update (){
         this.speak.x = this.market.x
         this.speak.active && this.speak.anims.play('think', true);
         this.speak.visible = true;
-            if(this.keys.F && this.keys.F.isDown){
-                GameMachine.speaker = 'market';
-                GameMachine.Dialog(this);
-            }
+        GameMachine.speaker = 'market';
     } else if((this.player.x <= this.hermit.x + 30 && this.player.x >= this.hermit.x - 30 )
                 &&
             (this.player.y <= this.hermit.y + 30 && this.player.y >= this.hermit.y - 30)){
@@ -208,10 +211,7 @@ function update (){
         this.speak.x = this.hermit.x
         this.speak.active && this.speak.anims.play('think', true);
         this.speak.visible = true;
-            if(this.keys.F && this.keys.F.isDown){
-                GameMachine.speaker = 'hermit';
-                GameMachine.Dialog(this);
-            }
+        GameMachine.speaker = 'hermit';
     } else if((this.player.x <= this.guard.x + 30 && this.player.x >= this.guard.x - 30 )
                 &&
             (this.player.y <= this.guard.y + 30 && this.player.y >= this.guard.y - 30)){
@@ -219,12 +219,12 @@ function update (){
         this.speak.x = this.guard.x
         this.speak.active && this.speak.anims.play('think', true);
         this.speak.visible = true;
-        if(this.keys.F && this.keys.F.isDown){
-            GameMachine.speaker = 'guard';
-            GameMachine.Dialog(this);
-        }
+        GameMachine.speaker = 'guard';
 } else {
-        this.speak.visible = false
+        this.speak.visible = false;
+        if(GameMachine.dialog){
+            GameMachine.dialog.destroy();
+        }
     }
 
 
@@ -262,42 +262,4 @@ function update (){
         this.physics.world.remove(this.box.body)
         this.box.body.enable = false
     }
-    //this.physics.world.remove(this.box.body)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //saving for later --- used for transitioning hit box
-    // this.box.width = 8
-    // this.box.height = 48
-    // this.box.body.width = 8
-    // this.box.body.height = 48
-
-    //player animations
-    // this.anims.create({
-    //     key: 'left',
-    //     frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
-    //     frameRate: 10,
-    //     repeat: -1
-    // });
-    // this.anims.create({
-    //     key: 'turn',
-    //     frames: [ { key: 'dude', frame: 4 } ],
-    //     frameRate: 20
-    // });
-    // this.anims.create({
-    //     key: 'right',
-    //     frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
-    //     frameRate: 10,
-    //     repeat: -1
-    // });

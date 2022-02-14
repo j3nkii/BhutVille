@@ -16,6 +16,13 @@ a{
     flex-direction: column;
     padding: 4rem;
 }
+#userPage table{
+    width: 80%;
+    margin: auto;
+}
+.table-button{
+    margin: 0, 4px, 0, 4px;
+}
 #about{
     color: black;
     width: 70%;
@@ -30,6 +37,8 @@ a{
     padding: 1rem;
     background-color: rgb(255, 255, 255);
     border: 2px solid black;
+    border-radius: 25px;
+    margin: 5px;
 }
 
 footer, nav{

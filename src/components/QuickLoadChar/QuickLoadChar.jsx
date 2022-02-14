@@ -27,7 +27,7 @@ function QuickLoadChar() {
                         </td>
                         <td>
                             <button
-                                className="button-primary"
+                                className="button-primary table-button"
                                 onClick={()=> window.open(`./game.html?char=${item.id}`)}
                             >
                                 Load Game
