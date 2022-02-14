@@ -15,6 +15,7 @@ import UserPage from '../UserPage/UserPage';
 import LandingPage from '../LandingPage/LandingPage';
 
 //import './App.css';
+import './styles.css'
 
 function App() {
   const dispatch = useDispatch();

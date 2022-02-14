@@ -11,7 +11,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 0},
-            //debug: true
+            debug: true
         }
     },
     scene: {
@@ -53,6 +53,7 @@ function create (){
 
     this.input.keyboard.on('keydown-ENTER', function (event) {
         GameMachine.Dialog(this);
+        this.hermit.moves();
     });
         //used for testing autoSave
     this.input.keyboard.on('keydown-Y', function (event) {
@@ -98,6 +99,11 @@ function create (){
     //add puppo sprite
     this.puppo = this.physics.add.sprite(225, 90, 'puppo');
     this.puppo.setCollideWorldBounds(true);
+    if(this.puppo.x === 225){
+        this.physics.moveTo(this.puppo, 230, 90);
+    } else if(this.puppo.x === 230){
+        this.physics.moveTo(this.puppo, 225, 90);
+    }
     //speakin icon
     this.speak = this.physics.add.sprite(0, 0, 'speak');
     //hitbox
@@ -130,7 +136,7 @@ function create (){
 
     //setting overlap
     this.physics.add.overlap(this.box, this.ramen, () => {this.ramen.destroy(); this.speak.destroy()});
-    
+
     //controls
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -141,6 +147,12 @@ function create (){
         frameRate: 4,
         repeat: -1
     });
+    this.anims.create({
+        key: 'right',
+        frames: this.anims.generateFrameNumbers('puppo', { start: 0, end: 1 }),
+        frameRate: 4,
+        repeat: -1
+    });
 }
 
 
@@ -148,6 +160,16 @@ function create (){
 
 
 function update (){
+    if(this.hermit.x === 400){this.hermit.body.stop();}
+    if(this.puppo.x === 225){
+        this.physics.moveTo(this.puppo, 360, 90, 30);
+        this.puppo.anims.play('right', true);
+        this.puppo.flipX = false;
+    } else if(this.puppo.x === 360){
+        this.physics.moveTo(this.puppo, 225, 90, 30);
+        this.puppo.anims.play('right', true);
+        this.puppo.flipX = true;
+    }
     this.keys = GameMachine.inDialog ? this.input.keyboard.addKeys('W,A,S,D') : this.input.keyboard.addKeys('W,A,S,D,F');
     //move dialog indicator around with ramen
 

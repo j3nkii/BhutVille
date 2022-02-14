@@ -8,28 +8,24 @@ function Nav() {
   const user = useSelector((store) => store.user);
 
   return (
-    <div className="nav">
+  <nav>
       <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
+        <h2 className="nav-title">Bhutville</h2>
       </Link>
-      <div>
-        <Link className="navLink" to="/home">
-          Home
+        <Link  to="/home">
+          <h2>Home</h2>
         </Link>
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
-            <Link className="navLink" to="/user">
-              User
+            <Link  to="/user">
+              <h2>User</h2>
             </Link>
 
-            <LogOutButton className="navLink" />
+            <LogOutButton />
           </>
         )}
-
-        
-      </div>
-    </div>
+  </nav>
   );
 }
 

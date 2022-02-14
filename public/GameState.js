@@ -52,7 +52,7 @@ old friend over there!? Thanks!`,
                     this.dialog.destroy();
                     this.market.isSpeaking = false;
                     this.inDialog = false;
-                    this.speaker = null
+                    this.speaker = null;
                 } else {
                     this.market.isSpeaking = true;
                     this.inDialog = true;
@@ -123,7 +123,7 @@ He's with you? Fine, go ahead.`,
                     this.dialog.destroy();
                     this.hermit.isSpeaking = false;
                     this.inDialog = false;
-                    this.speaker = null
+                    this.speaker = null;
                 } else {
                     this.hermit.isSpeaking = true;
                     this.inDialog = true;

@@ -15,7 +15,7 @@ function NewCharacterForm() {
     }
 
     return (
-        <form className="formPanel" onSubmit={newChar}>
+        <form className="comp" onSubmit={newChar}>
         <h2>Make New Character</h2>
         <div>
             <label htmlFor="username">
@@ -30,7 +30,7 @@ function NewCharacterForm() {
             </label>
         </div>
         <div>
-            <input className="btn" type="submit" name="submit" value="Register" />
+            <input className="button-primary" type="submit" name="submit" value="Register" />
         </div>
         </form>
     );

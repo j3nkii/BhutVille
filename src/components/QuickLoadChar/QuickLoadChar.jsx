@@ -13,20 +13,25 @@ function QuickLoadChar() {
     const user = useSelector((store) => store.user);
     const char = useSelector((store) => store.character);
     //map through characters making section for each one
+
+
     console.log(char);
     return (<>
-        <div>
+        <div className="comp">
             <h1>current games:</h1>
-            <table>
+            <table >
                 {char.map((item) => (
                     <tr>
                         <td>
                             {item.name}
                         </td>
                         <td>
-                            <a href={"./game.html?char=" + item.id} target="blank">
-                                {item.id}
-                            </a>
+                            <button
+                                className="button-primary"
+                                onClick={()=> window.open(`./game.html?char=${item.id}`)}
+                            >
+                                Load Game
+                            </button>
                         </td>
                     </tr>))
                 }

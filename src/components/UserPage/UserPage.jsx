@@ -29,19 +29,21 @@ function UserPage() {
     })
   }
   return (
-    <div className="container">
-      {edit 
-        ?
-        <form onSubmit={editUser} >
-          <input onChange={(evt) => setNewName(evt.target.value)} type="text" value={newName}/>
-          <button className="btn" type="submit">Update!</button>
-        </form>
-        : <h2>Welcome, {user.username}!</h2>}
-      <button className="btn" onClick={() => setEdit(!edit)}>{edit ? 'Cancel Edit' : 'Edit User'}</button>
-      <button className="btn" onClick={deleteUser}>Delete User</button>
-      <LogOutButton className="btn" />
-      <QuickLoadChar />
-      <NewCharacterForm />
+    <div id="userPage" >
+      <div className="comp">
+          {edit 
+            ?
+            <form onSubmit={editUser} >
+              <input onChange={(evt) => setNewName(evt.target.value)} type="text" value={newName}/>
+              <button className="btn" type="submit">Update!</button>
+            </form>
+            : <h2>Welcome, {user.username}!</h2>}
+          <button className="btn" onClick={() => setEdit(!edit)}>{edit ? 'Cancel Edit' : 'Edit User'}</button>
+          <button className="button-secondary" onClick={deleteUser}>Delete User</button>
+          <LogOutButton />
+          </div>
+        <QuickLoadChar />
+        <NewCharacterForm />
     </div>
   );
 }
