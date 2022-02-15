@@ -5,7 +5,7 @@ function LogOutButton(props) {
   const dispatch = useDispatch();
   return (
     <button
-      className="button-primary"
+      className="button-secondary"
       onClick={() => dispatch({ type: 'LOGOUT' })}
     >
       Log Out

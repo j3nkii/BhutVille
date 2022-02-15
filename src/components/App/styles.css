@@ -1,6 +1,8 @@
 body{
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(126, 44, 158);
     color: white;
+    font-family: "Lucida Console", "Courier New", monospace;
+    margin: 0;
 }
 
 a{
@@ -12,6 +14,8 @@ a{
     padding: 4rem;
 }
 #userPage{
+    margin: auto;
+    width: 50%;
     display: flex;
     flex-direction: column;
     padding: 4rem;
@@ -20,8 +24,13 @@ a{
     width: 80%;
     margin: auto;
 }
-.table-button{
-    margin: 0, 4px, 0, 4px;
+#userButtons{
+    display: flex;
+    justify-content: space-around;
+}
+#table-button{
+    margin-right: 2rem;
+    margin-left: 2rem;
 }
 #about{
     color: black;
@@ -33,24 +42,30 @@ a{
 }
 
 .comp{
+    text-align: center;
+    align-items: center;
     color: black;
     padding: 1rem;
     background-color: rgb(255, 255, 255);
-    border: 2px solid black;
     border-radius: 25px;
     margin: 5px;
 }
 
 footer, nav{
     border: 2px solid black;
+    background-color: black;
+    margin: 0;
 }
-
-nav{
+#navDiv{
+    margin: auto;
+    align-self: center;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+    width: 60%;
 }
+
+
 
 
 
@@ -96,6 +111,8 @@ input[type="button"]:focus {
     color: #333;
     border-color: #888;
     outline: 0; }
+
+    /*PRIMARY*/
 .button.button-primary,
 button.button-primary,
 input[type="submit"].button-primary,
@@ -115,18 +132,18 @@ input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
     color: #FFF;
-    background-color: #1EAEDB;
-    border-color: #1EAEDB; }
-    /**/
+    background-color: #36c36c;
+    border-color: #36c36c; }
 
+    /*****SECONDARY*****/
     .button.button-secondary,
 button.button-secondary,
 input[type="submit"].button-secondary,
 input[type="reset"].button-secondary,
 input[type="button"].button-secondary {
     color: #FFF;
-    background-color: #fa4141;
-    border-color: #fa4141; }
+    background-color: #bb77e9;
+    border-color: #bb77e9; }
 .button.button-secondary:hover,
 button.button-secondary:hover,
 input[type="submit"].button-secondary:hover,
@@ -138,22 +155,71 @@ input[type="submit"].button-secondary:focus,
 input[type="reset"].button-secondary:focus,
 input[type="button"].button-secondary:focus {
     color: #FFF;
-    background-color: #1EAEDB;
-    border-color: #1EAEDB; }
+    background-color: #9760bb;
+    border-color: #9760bb; }
+
+
+    /*****DANGER*****/
+    .button.button-danger,
+button.button-danger,
+input[type="submit"].button-danger,
+input[type="reset"].button-danger,
+input[type="button"].button-danger {
+    color: #FFF;
+    background-color: #fa4141;
+    border-color: #fa4141; }
+.button.button-danger:hover,
+button.button-danger:hover,
+input[type="submit"].button-danger:hover,
+input[type="reset"].button-danger:hover,
+input[type="button"].button-danger:hover,
+.button.button-danger:focus,
+button.button-danger:focus,
+input[type="submit"].button-danger:focus,
+input[type="reset"].button-danger:focus,
+input[type="button"].button-danger:focus {
+    color: #FFF;
+    background-color: #cc3737;
+    border-color: #cc3737; }
+
+/*****WARNING*****/
+.button.button-warning,
+button.button-warning,
+input[type="submit"].button-warning,
+input[type="reset"].button-warning,
+input[type="button"].button-warning {
+    color: #FFF;
+    background-color: #fb9254;
+    border-color: #fb9254; }
+.button.button-warning:hover,
+button.button-warning:hover,
+input[type="submit"].button-warning:hover,
+input[type="reset"].button-warning:hover,
+input[type="button"].button-warning:hover,
+.button.button-warning:focus,
+button.button-warning:focus,
+input[type="submit"].button-warning:focus,
+input[type="reset"].button-warning:focus,
+input[type="button"].button-warning:focus {
+    color: #FFF;
+    background-color: #c87443;
+    border-color: #c87443; }
+
     /* Tables
     –––––––––––––––––––––––––––––––––––––––––––––––––– */
-    th,
+th,
 td {
     padding: 12px 15px;
     width: 100%;
     text-align: center;
-    border-bottom: 1px solid #E1E1E1; }
-th:first-child,
+    border-bottom: 1px solid #E1E1E1; 
+}
+/* th:first-child,
 td:first-child {
     padding-left: 0; }
 th:last-child,
 td:last-child {
-    padding-right: 0; }
+    padding-right: 0; } */
 tr{
     background-color:#E1E1E1;
 }

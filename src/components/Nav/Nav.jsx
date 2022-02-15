@@ -9,12 +9,10 @@ function Nav() {
 
   return (
   <nav>
+    <div id="navDiv">
       <Link to="/home">
         <h2 className="nav-title">Bhutville</h2>
       </Link>
-        <Link  to="/home">
-          <h2>Home</h2>
-        </Link>
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
@@ -25,6 +23,7 @@ function Nav() {
             <LogOutButton />
           </>
         )}
+    </div>
   </nav>
   );
 }

@@ -48,32 +48,28 @@ function LoginForm() {
         </h3>
       )}
       <div>
-        <label htmlFor="username">
-          Username:
           <input
             type="text"
             name="username"
+            placeholder="Username"
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
       </div>
       <div>
-        <label htmlFor="password">
-          Password:
           <input
             type="password"
             name="password"
+            placeholder="Password"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
       </div>
       <div>
-        <button className="btn" value="Log In" onClick={login}>Login</button>
-        <button className="btn" value="Register" onClick={registerUser}>Register</button>
+        <button className="button-secondary" value="Log In" onClick={login}>Login</button>
+        <button className="button-primary" value="Register" onClick={registerUser}>Register</button>
       </div>
     </form>
   );

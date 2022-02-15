@@ -18,19 +18,17 @@ function NewCharacterForm() {
         <form className="comp" onSubmit={newChar}>
         <h2>Make New Character</h2>
         <div>
-            <label htmlFor="username">
-            Name:
             <input
                 type="text"
                 name="username"
+                placeholder="Character Name"
                 value={charName}
                 required
                 onChange={(event) => setCharName(event.target.value)}
             />
-            </label>
         </div>
         <div>
-            <input className="button-primary" type="submit" name="submit" value="Register" />
+            <input className="button-primary" type="submit" name="submit" value="Add Character" />
         </div>
         </form>
     );

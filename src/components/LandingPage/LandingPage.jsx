@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 // CUSTOM COMPONENTS
 import QuickLoadChar from '../QuickLoadChar/QuickLoadChar'
 import LoginForm from '../LoginForm/LoginForm';
+import NewCharacterForm from '../NewCharacterForm/NewCharacterForm'
 
 function LandingPage() {
   const user = useSelector((store) => store.user);
@@ -23,7 +24,7 @@ function LandingPage() {
               To get over these hurdles I had to heavily rely on the Phaser community as well as the Phaser Docs. Luckily the Docs were well
               written and the community is active! I also had the help of my Instructor as well as my cohort mates.
             <br></br><br></br>
-              Special shout out to Tiled and Pixel Boy.
+              Special shout out to Tiled and <a href="https://pixel-boy.itch.io/">Pixel Boy.</a>
             </p>
             <br></br><br></br>
             <div>
@@ -39,7 +40,7 @@ function LandingPage() {
         </div>
         <div id="aboutCharSelect" className="comp">
         {user.id
-          ? <QuickLoadChar />
+          ? <><NewCharacterForm /><QuickLoadChar /></>
           : <LoginForm /> 
         }
         </div>

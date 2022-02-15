@@ -18,7 +18,7 @@ function QuickLoadChar() {
     console.log(char);
     return (<>
         <div className="comp">
-            <h1>current games:</h1>
+            <h2>current games:</h2>
             <table >
                 {char.map((item) => (
                     <tr>
@@ -27,6 +27,7 @@ function QuickLoadChar() {
                         </td>
                         <td>
                             <button
+                                id="table-button"
                                 className="button-primary table-button"
                                 onClick={()=> window.open(`./game.html?char=${item.id}`)}
                             >

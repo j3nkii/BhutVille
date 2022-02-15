@@ -207,6 +207,10 @@ I've been on the road for a long time, i could use the company`,
             }
         }).catch(err => {
             console.log('err in loadgame', err);
-        })
+        });
+    },
+    test: function(params) {
+        console.log('in test');
+        game.scene.stop("")
     }
 }

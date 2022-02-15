@@ -11,7 +11,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 0},
-            debug: true
+            //debug: true
         }
     },
     scene: {
@@ -26,6 +26,7 @@ var BhutVille = new Phaser.Game(config);
 
 
 
+//PRELOAD****************************************************************************************
 function preload (){
     //maps
     this.load.tilemapTiledJSON('map', 'assets/bhutvillev3.json');
@@ -34,7 +35,6 @@ function preload (){
     this.load.image('water', 'assets/TilesetWater.png');
     this.load.image('nature', 'assets/TilesetNature.png');
     this.load.image('element', 'assets/TilesetElement.png');
-
     //sprites
     this.load.spritesheet('speak', 'assets/DialogInfo.png', { frameWidth: 20, frameHeight: 16 });
     this.load.spritesheet('dude', 'assets/SpriteSheet.png', { frameWidth: 16, frameHeight: 16 });
@@ -45,26 +45,28 @@ function preload (){
     this.load.spritesheet('puppo', 'assets/puppo.png', { frameWidth: 16, frameHeight: 16 });
 }
 
-
-
-
+//CREATE****************************************************************************************
 function create (){
+//Load game, pass Game to GM
     GameMachine.loadGame(this);
-    this.keys = this.input.keyboard.addKeys('W,A,S,D')
-
-    this.input.keyboard.on('keydown-F', function (event) {
+//define keys
+    this.keys = this.input.keyboard.addKeys('W,A,S,D');
+    cursors = this.input.keyboard.createCursorKeys();
+    this.input.keyboard.on('keydown-SPACE', function (event) {
         GameMachine.Dialog(this);
     });
-
-    //map
+    this.input.keyboard.on('keydown-R', function (event) {
+        GameMachine.test();
+    });
+//map
     const map = this.make.tilemap({key: 'map'});
-    //tilesets
+//tilesets
     const floorTiles = map.addTilesetImage('TilesetFloor', 'floor');
     const buildingTiles = map.addTilesetImage('TilesetHouse', 'house');
     const waterTiles = map.addTilesetImage('TilesetWater', 'water');
     const natureTiles = map.addTilesetImage('TilesetNature', 'nature');
     const elementTiles = map.addTilesetImage('TilesetElement', 'element');
-    //layers
+//layers
     const layer1 = map.createLayer('grass', [floorTiles, waterTiles], 0, 0);
     GameMachine.layerb = map.createLayer('barrier', [waterTiles], 0, 0);
     const layer2 = map.createLayer('fence', [buildingTiles, waterTiles, elementTiles], 0, 0);
@@ -81,36 +83,39 @@ function create (){
     GameMachine.layer13 = map.createLayer('openDoor', [buildingTiles, floorTiles], 0, 0);
     GameMachine.layer12.visible = false;
     GameMachine.layer13.visible = false;
-    //ramen sprite
+
+//SPRITES*************************************************
+//ramen sprite
     this.ramen = this.physics.add.sprite(80, 120, 'ramen');
     this.ramen.setCollideWorldBounds(true);
-    //market man sprite
+//market man sprite
     this.market = this.physics.add.sprite(430, 245, 'market');
     this.market.setCollideWorldBounds(true);
-    //market man sprite
+//market man sprite
     this.hermit = this.physics.add.sprite(200, 80, 'hermit');
     this.hermit.setCollideWorldBounds(true);
-    //market man sprite
+//market man sprite
     this.guard = this.physics.add.sprite(480, 60, 'guard');
     this.guard.setCollideWorldBounds(true);
-    //add player sprite
+//add player sprite
     this.player = this.physics.add.sprite(225, 290, 'dude');
     this.player.setCollideWorldBounds(true);
-    //add puppo sprite
+ //add puppo sprite
     this.puppo = this.physics.add.sprite(225, 90, 'puppo');
     this.puppo.setCollideWorldBounds(true);
-    //speakin icon
+//speakin icon
     this.speak = this.physics.add.sprite(0, 0, 'speak');
-    //hitbox
+//hitbox
     this.box = this.add.rectangle(this.player.x, this.player.y , 48, 8);
     this.physics.add.existing(this.box);
-    //gate barricade
-    this.gate = this.add.rectangle(450, 0, 80, 65);
+//gate barricade
+    this.gate = this.add.rectangle(450, 0, 80, 64);
     this.physics.add.existing(this.gate);
     this.gate.body.immovable = true
     console.log(this.gate);
 
-    //setting collision
+//COLLISION***************************************************
+//setting collision
     layer1.setCollisionByProperty({collide: true})
     layer2.setCollisionByProperty({collide: true})
     layer3.setCollisionByProperty({collide: true})
@@ -122,32 +127,31 @@ function create (){
     layer9.setCollisionByProperty({collide: true})
     layer10.setCollisionByProperty({collide: true})
     layer11.setCollisionByProperty({collide: true})
-    this.physics.add.collider(this.player, this.gate)
-    this.physics.add.collider(this.player, layer1)
-    this.physics.add.collider(this.player, layer2)
-    this.physics.add.collider(this.player, layer3)
-    this.physics.add.collider(this.player, layer4)
-    this.physics.add.collider(this.player, layer5)
-    this.physics.add.collider(this.player, layer6)
-    this.physics.add.collider(this.player, layer7)
-    this.physics.add.collider(this.player, layer8)
-    this.physics.add.collider(this.player, layer9)
-    this.physics.add.collider(this.player, layer10)
-    this.physics.add.collider(this.player, layer11)
-
-    //setting overlap
-    this.physics.add.overlap(this.box, this.ramen, () => {this.ramen.destroy(); this.speak.destroy()});
-
-    //controls
-    cursors = this.input.keyboard.createCursorKeys();
-
-    //Dialog Indicator animation
+    this.physics.add.collider(this.player,
+        [
+            layer1,
+            layer2,
+            layer3,
+            layer4,
+            layer5,
+            layer6,
+            layer7,
+            layer8,
+            layer9,
+            layer10,
+            layer11,
+            this.gate
+        ]);
+    this.physics.add.overlap(this.box, this.guard, () => this.guard.destroy());
+//ANIMATIONS***************************************************
+//Dialog Indicator animation
     this.anims.create({
         key: 'think',
         frames: this.anims.generateFrameNumbers('speak', { start: 0, end: 3 }),
         frameRate: 4,
         repeat: -1
     });
+    //puppo animation, flip is handled line 176 & 180
     this.anims.create({
         key: 'right',
         frames: this.anims.generateFrameNumbers('puppo', { start: 0, end: 1 }),
@@ -160,8 +164,9 @@ function create (){
 
 
 
+//UPDATE****************************************************************************************
 function update (){
-
+//HERMIT AUTOMATION*************************************
     if(GameMachine.player.hasHermit && !GameMachine.hermit.isSpeaking){
         if(Math.ceil(this.hermit.x) >= 495 && Math.ceil(this.hermit.y) >= 45){
             GameMachine.hermit.isReady = true;
@@ -170,7 +175,7 @@ function update (){
             this.physics.moveTo(this.hermit, 496, 46, 90)
         }
     }
-
+//PUPPO AUTOMATION***************************************
     if(this.puppo.x === 225){
         this.physics.moveTo(this.puppo, 360, 90, 30);
         this.puppo.anims.play('right', true);
@@ -180,14 +185,8 @@ function update (){
         this.puppo.anims.play('right', true);
         this.puppo.flipX = true;
     }
-    // this.keys = GameMachine.inDialog ? this.input.keyboard.addKeys('W,A,S,D') : this.input.keyboard.addKeys('W,A,S,D,F');
-    //move dialog indicator around with ramen
-
-
-
-    //used to speak to characters --- turn into function, pass in nearby char with "hitbox" style bodies
-
-                //set *new*inrange* overlap and pass it to a function with logic below
+//NPC DIALOG HELPER***************************************
+//used to throw speak sprite above npcs ++ used to pass the in range npc to dialog function
     if((this.player.x <= this.ramen.x + 30 && this.player.x >= this.ramen.x - 30 )
                 &&
             (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){
@@ -220,16 +219,13 @@ function update (){
         this.speak.active && this.speak.anims.play('think', true);
         this.speak.visible = true;
         GameMachine.speaker = 'guard';
-} else {
+} else {//remove speak sprite when player walks away, destroy dialog if exists
         this.speak.visible = false;
         if(GameMachine.dialog){
             GameMachine.dialog.destroy();
         }
     }
-
-
-
-    //player movement
+//PLAYER MOVEMENT***************************************
     //going to have to add a 'compass' 
         //for directional attacks
     this.player.setVelocity(0);
@@ -254,12 +250,13 @@ function update (){
             : this.player.setVelocityX(120)
     } //end movement
     //attacking
-    if(cursors.space.isDown){
-        this.physics.world.add(this.box.body)
-        this.box.x = this.player.x
-        this.box.y = this.player.y
-    } else {
-        this.physics.world.remove(this.box.body)
-        this.box.body.enable = false
-    }
+//     if(cursors.space.isDown){
+//         this.physics.world.add(this.box.body)
+//         this.box.x = this.player.x
+//         this.box.y = this.player.y
+//     } else {
+//         this.physics.world.remove(this.box.body)
+//         this.box.body.enable = false
+//     }
+// }
 }
