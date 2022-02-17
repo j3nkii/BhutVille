@@ -20,13 +20,20 @@ class KingsGate extends Phaser.Scene {
         this.load.spritesheet('guard', 'assets/knight.png', { frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('puppo', 'assets/puppo.png', { frameWidth: 16, frameHeight: 16 });
         //dialog
-        this.load.image('dialogbox', '/assets/Dialog/dialogbox.png')
-        this.load.image('puppoFace', '/assets/Dialog/puppoFace.png')
-        this.load.image('hermitFace', '/assets/Dialog/hermitFace.png')
-        this.load.image('marketFace', '/assets/Dialog/marketFace.png')
-        this.load.image('ramenFace', '/assets/Dialog/ramenFace.png')
-        this.load.image('guardFace', '/assets/Dialog/guardFace.png')
-        this.load.image('puppoDialog', '/assets/Dialog/puppoDialog.png')
+        this.load.image('dialogbox', '/assets/Dialog/dialogbox.png');
+        this.load.image('puppoFace', '/assets/Dialog/puppoFace.png');
+        this.load.image('hermitFace', '/assets/Dialog/hermitFace.png');
+        this.load.image('marketFace', '/assets/Dialog/marketFace.png');
+        this.load.image('ramenFace', '/assets/Dialog/ramenFace.png');
+        this.load.image('guardFace', '/assets/Dialog/guardFace.png');
+        this.load.image('puppoDialog', '/assets/Dialog/puppoDialog.png');
+        this.load.image('ramenD1', '/assets/Dialog/ramenD1.png');
+        this.load.image('ramenD2', '/assets/Dialog/ramenD2.png');
+        this.load.image('ramenD3', '/assets/Dialog/ramenD3.png');
+        this.load.image('marketD1', '/assets/Dialog/marketD1.png');
+        this.load.image('marketD2', '/assets/Dialog/marketD2.png');
+        this.load.image('marketD3', '/assets/Dialog/marketD3.png');
+        this.load.image('marketD4', '/assets/Dialog/marketD4.png');
     }
 
 //CREATE****************************************************************************************
@@ -99,13 +106,42 @@ class KingsGate extends Phaser.Scene {
         this.door = this.add.rectangle(450, 0, 80, 30);
         this.physics.add.existing(this.door);
         this.gate.body.immovable = true;
+
     // dialog boxes
         this.dialogContainer = this.add.image(320, 230, 'dialogbox');
         this.puppoFaceset = this.add.image(65, 200, 'puppoFace');
+        this.ramenFaceset = this.add.image(65, 200, 'ramenFace');
+        this.hermitFaceset = this.add.image(65, 200, 'hermitFace');
+        this.marketFaceset = this.add.image(65, 200, 'marketFace');
+        this.guardFaceset = this.add.image(65, 200, 'guardFace');
+    //dialogs
+        //puppo
         this.puppo1 = this.add.image(340, 215, 'puppoDialog');
-            this.puppo1.visible = false;
-            this.puppoFaceset.visible = false;
+        //ramen
+        this.ramenD1 = this.add.image(350, 230, 'ramenD1');
+        this.ramenD2 = this.add.image(350, 230, 'ramenD2');
+        this.ramenD3 = this.add.image(350, 230, 'ramenD3');
+        //market
+        this.marketD1 = this.add.image(350, 230, 'marketD1');
+        this.marketD2 = this.add.image(350, 230, 'marketD2');
+        this.marketD3 = this.add.image(350, 230, 'marketD3');
+        this.marketD4 = this.add.image(350, 230, 'marketD4');
+        //hide dialogs
             this.dialogContainer.visible = false;
+            this.puppoFaceset.visible = false;
+            this.ramenFaceset.visible = false;
+            this.hermitFaceset.visible = false;
+            this.marketFaceset.visible = false;
+            this.guardFaceset.visible = false;
+            this.puppo1.visible = false;
+            this.ramenD1.visible = false;
+            this.ramenD2.visible = false;
+            this.ramenD3.visible = false;
+            this.marketD1.visible = false;
+            this.marketD2.visible = false;
+            this.marketD3.visible = false;
+            this.marketD4.visible = false;
+
 
     //COLLISION***************************************************
     //setting collision
@@ -186,43 +222,29 @@ class KingsGate extends Phaser.Scene {
                 //could use "area boxes" instead in future refactor
         if((this.player.x <= this.ramen.x + 30 && this.player.x >= this.ramen.x - 30 )
                     &&
-                (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){
-            this.speak.y = this.ramen.y - 18
-            this.speak.x = this.ramen.x
-            this.speak.active && this.speak.anims.play('think', true);
-            this.speak.visible = true;
-            GameMachine.speaker = 'ramen';
+                (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){ //when hermit moves to gate, player cant interactw
+            GameMachine.speakBubble(this.ramen);
+            GameMachine.speaker = 'ramen' ;
         } else if((this.player.x <= this.market.x + 30 && this.player.x >= this.market.x - 30 )
                     &&
                 (this.player.y <= this.market.y + 30 && this.player.y >= this.market.y - 30)){
-            this.speak.y = this.market.y - 18
-            this.speak.x = this.market.x
-            this.speak.active && this.speak.anims.play('think', true);
-            this.speak.visible = true;
+            GameMachine.speakBubble(this.market);
             GameMachine.speaker = 'market';
         } else if((this.player.x <= this.hermit.x + 30 && this.player.x >= this.hermit.x - 30 )
                     &&
-                (this.player.y <= this.hermit.y + 30 && this.player.y >= this.hermit.y - 30)){
-            this.speak.y = this.hermit.y - 18
-            this.speak.x = this.hermit.x
-            this.speak.active && this.speak.anims.play('think', true);
-            this.speak.visible = true;
+                (this.player.y <= this.hermit.y + 30 && this.player.y >= this.hermit.y - 30)
+                    && !GameMachine.hermit.isReady){
+            GameMachine.speakBubble(this.hermit);
             GameMachine.speaker = 'hermit';
         } else if((this.player.x <= this.guard.x + 30 && this.player.x >= this.guard.x - 30 )
                     &&
                 (this.player.y <= this.guard.y + 30 && this.player.y >= this.guard.y - 30)){
-            this.speak.y = this.guard.y - 18
-            this.speak.x = this.guard.x
-            this.speak.active && this.speak.anims.play('think', true);
-            this.speak.visible = true;
+                GameMachine.speakBubble(this.guard);
             GameMachine.speaker = 'guard';
         }else if((this.player.x <= this.puppo.x + 30 && this.player.x >= this.puppo.x - 30 )
                     &&
                 (this.player.y <= this.puppo.y + 30 && this.player.y >= this.puppo.y - 30)){
-            this.speak.y = this.puppo.y - 18
-            this.speak.x = this.puppo.x
-            this.speak.active && this.speak.anims.play('think', true);
-            this.speak.visible = true;
+            GameMachine.speakBubble(this.puppo);
             GameMachine.speaker = 'puppo';
     } else {//remove speak sprite when player walks away, destroy dialog if exists
             this.speak.visible = false;
