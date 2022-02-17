@@ -66,7 +66,9 @@ footer, nav{
 }
 
 
-
+li{
+    list-style: none;
+}
 
 
 
