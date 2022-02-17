@@ -14,6 +14,21 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
+router.get('/load-game', (req, res) => {
+  console.log(req.query.char);
+  pool.query(`
+  SELECT "game_state" from "user"
+  JOIN "characters"
+    ON "user"."id" = "characters"."user_id"
+  WHERE "user_id"=$1 AND "characters"."id"=$2;
+  `, [req.user.id, req.query.char]).then(dbRes => {
+    console.log('************DBRes',dbRes.rows[0]);
+    res.send(dbRes.rows[0])
+  }).catch(err => {
+    console.error('loadgame failed', err);
+  })
+});
+
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
@@ -31,6 +46,44 @@ router.post('/register', (req, res, next) => {
       res.sendStatus(500);
     });
 });
+//update username
+router.put('/update/', rejectUnauthenticated, (req, res) => {{
+  pool.query(`
+  UPDATE "user"
+  SET username=$1
+  WHERE id=$2
+  `, [req.body.newName, req.user.id]).then(dbres => {
+    res.sendStatus(200)
+  }).catch(err => {
+    console.error('UPDATE FAILED', err);
+  })
+}})
+
+//autosave router
+router.put('/update/autosave', rejectUnauthenticated, (req, res) => {{
+  pool.query(`
+  UPDATE "characters"
+  SET game_state=$1
+  WHERE user_id=$2
+  `, [req.body.data, req.user.id]).then(dbres => {
+    console.log('*****************AUTOSAVE', req.body);
+    res.sendStatus(200)
+  }).catch(err => {
+    console.error('UPDATE FAILED', err);
+  })
+}})
+
+//delete user
+router.delete('/delete/', rejectUnauthenticated, (req, res) => {
+  pool.query(`
+  DELETE from "user"
+  WHERE id=$1
+  `, [req.user.id]).then(dbRes => {
+    res.sendStatus(201)
+  }).catch(err => {
+    console.error('DELETE failed', err);
+  })
+})
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route

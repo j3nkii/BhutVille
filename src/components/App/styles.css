@@ -1,0 +1,290 @@
+body{
+    background-color: rgb(126, 44, 158);
+    color: white;
+    font-family: "Lucida Console", "Courier New", monospace;
+    margin: 0;
+}
+
+a{
+    color: white;
+}
+
+#landingPage{
+    display: flex;
+    padding: 4rem;
+}
+#userPage{
+    margin: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem;
+}
+#userPage table{
+    width: 80%;
+    margin: auto;
+}
+#userButtons{
+    display: flex;
+    justify-content: space-around;
+}
+#table-button{
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+#about{
+    color: black;
+    width: 70%;
+}
+#aboutCharSelect{
+    color: black;
+    width: 30%;
+}
+
+.comp{
+    text-align: center;
+    align-items: center;
+    color: black;
+    padding: 1rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 25px;
+    margin: 5px;
+}
+
+footer, nav{
+    border: 2px solid black;
+    background-color: black;
+    margin: 0;
+}
+#navDiv{
+    margin: auto;
+    align-self: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 60%;
+}
+
+
+
+
+
+
+
+
+/*SKELETON CSS
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* Buttons
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: #555;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+    cursor: pointer;
+    box-sizing: border-box; }
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+    color: #333;
+    border-color: #888;
+    outline: 0; }
+
+    /*PRIMARY*/
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+    color: #FFF;
+    background-color: #59f193;
+    border-color: #59f193; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+    color: #FFF;
+    background-color: #36c36c;
+    border-color: #36c36c; }
+
+    /*****SECONDARY*****/
+    .button.button-secondary,
+button.button-secondary,
+input[type="submit"].button-secondary,
+input[type="reset"].button-secondary,
+input[type="button"].button-secondary {
+    color: #FFF;
+    background-color: #bb77e9;
+    border-color: #bb77e9; }
+.button.button-secondary:hover,
+button.button-secondary:hover,
+input[type="submit"].button-secondary:hover,
+input[type="reset"].button-secondary:hover,
+input[type="button"].button-secondary:hover,
+.button.button-secondary:focus,
+button.button-secondary:focus,
+input[type="submit"].button-secondary:focus,
+input[type="reset"].button-secondary:focus,
+input[type="button"].button-secondary:focus {
+    color: #FFF;
+    background-color: #9760bb;
+    border-color: #9760bb; }
+
+
+    /*****DANGER*****/
+    .button.button-danger,
+button.button-danger,
+input[type="submit"].button-danger,
+input[type="reset"].button-danger,
+input[type="button"].button-danger {
+    color: #FFF;
+    background-color: #fa4141;
+    border-color: #fa4141; }
+.button.button-danger:hover,
+button.button-danger:hover,
+input[type="submit"].button-danger:hover,
+input[type="reset"].button-danger:hover,
+input[type="button"].button-danger:hover,
+.button.button-danger:focus,
+button.button-danger:focus,
+input[type="submit"].button-danger:focus,
+input[type="reset"].button-danger:focus,
+input[type="button"].button-danger:focus {
+    color: #FFF;
+    background-color: #cc3737;
+    border-color: #cc3737; }
+
+/*****WARNING*****/
+.button.button-warning,
+button.button-warning,
+input[type="submit"].button-warning,
+input[type="reset"].button-warning,
+input[type="button"].button-warning {
+    color: #FFF;
+    background-color: #fb9254;
+    border-color: #fb9254; }
+.button.button-warning:hover,
+button.button-warning:hover,
+input[type="submit"].button-warning:hover,
+input[type="reset"].button-warning:hover,
+input[type="button"].button-warning:hover,
+.button.button-warning:focus,
+button.button-warning:focus,
+input[type="submit"].button-warning:focus,
+input[type="reset"].button-warning:focus,
+input[type="button"].button-warning:focus {
+    color: #FFF;
+    background-color: #c87443;
+    border-color: #c87443; }
+
+    /* Tables
+    –––––––––––––––––––––––––––––––––––––––––––––––––– */
+th,
+td {
+    padding: 12px 15px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #E1E1E1; 
+}
+/* th:first-child,
+td:first-child {
+    padding-left: 0; }
+th:last-child,
+td:last-child {
+    padding-right: 0; } */
+tr{
+    background-color:#E1E1E1;
+}
+.largeTable{
+    width: 60%;
+}
+
+/* Forms
+______________________________________________________________ */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+    select {
+    height: 38px;
+    padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+    background-color: #fff;
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box; }
+/* Removes awkward default styles on some inputs for iOS */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+    -webkit-appearance: none;
+        -moz-appearance: none;
+            appearance: none; }
+textarea {
+    min-height: 65px;
+    padding-top: 6px;
+    padding-bottom: 6px; }
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border: 1px solid #33C3F0;
+    outline: 0; }
+label,
+legend {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 600; }
+fieldset {
+    padding: 0;
+    border-width: 0; }
+input[type="checkbox"],
+input[type="radio"] {
+    display: inline; }
+label > .label-body {
+    display: inline-block;
+    margin-left: .5rem;
+    font-weight: normal; }
+

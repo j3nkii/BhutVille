@@ -10,7 +10,6 @@ function LoginForm() {
 
   const login = (event) => {
     event.preventDefault();
-
     if (username && password) {
       dispatch({
         type: 'LOGIN',
@@ -24,6 +23,17 @@ function LoginForm() {
     }
   }; // end login
 
+  const registerUser = (event) => {
+    event.preventDefault();
+    dispatch({
+      type: 'REGISTER',
+      payload: {
+        username: username,
+        password: password,
+      },
+    });
+  }; // end registerUser
+
   return (
     <form className="formPanel" onSubmit={login}>
       <h2>Login</h2>
@@ -32,32 +42,34 @@ function LoginForm() {
           {errors.loginMessage}
         </h3>
       )}
+      {errors.registrationMessage && (
+        <h3 className="alert" role="alert">
+          {errors.registrationMessage}
+        </h3>
+      )}
       <div>
-        <label htmlFor="username">
-          Username:
           <input
             type="text"
             name="username"
+            placeholder="Username"
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
       </div>
       <div>
-        <label htmlFor="password">
-          Password:
           <input
             type="password"
             name="password"
+            placeholder="Password"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+        <button className="button-secondary" value="Log In" onClick={login}>Login</button>
+        <button className="button-primary" value="Register" onClick={registerUser}>Register</button>
       </div>
     </form>
   );
