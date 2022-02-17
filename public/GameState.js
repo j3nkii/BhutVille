@@ -1,6 +1,7 @@
 //grabs query string
 const queryString = window.location.search;
 const GameMachine = {
+    puppo: {isSpeaking: false},
     ramen: {isSpeaking: false, hasMet: false},
     market: {isSpeaking: false, hasMet: false},
     hermit: {isSpeaking: false, hasMet: false, isReady:false},
@@ -13,7 +14,7 @@ const GameMachine = {
         switch (this.speaker) {
             //******************** RAMEN ********************\\
             case 'ramen':
-                if(this.ramen.isSpeaking){
+                if(this.inDialog){
                     this.dialog.destroy();
                     this.ramen.isSpeaking = false;
                     this.inDialog = false;
@@ -48,7 +49,7 @@ old friend over there!? Thanks!`,
                 break;
             //******************** MARKET ********************\\
             case 'market':
-                if(this.market.isSpeaking){
+                if(this.inDialog){
                     this.dialog.destroy();
                     this.market.isSpeaking = false;
                     this.inDialog = false;
@@ -92,7 +93,7 @@ Goodness! Quick take these!`,
                 break;
             //******************** GUARD ********************\\
             case 'guard':
-                if(this.guard.isSpeaking){
+                if(this.inDialog){
                     this.dialog.destroy();
                     this.guard.isSpeaking = false;
                     this.inDialog = false;
@@ -123,7 +124,7 @@ He's with you? Fine, go ahead.`,
                 break;
             //******************** HERMIT ********************\\
             case 'hermit':
-                if(this.hermit.isSpeaking){
+                if(this.inDialog){
                     this.dialog.destroy();
                     this.hermit.isSpeaking = false;
                     this.inDialog = false;
@@ -161,15 +162,27 @@ I've been on the road for a long time, i could use the company`,
                     }
                 }
                 break;
+        //******************** puppo ********************\\
+            case 'puppo':
+            if(this.inDialog){
+                this.removeDialog();
+            } else {
+                this.puppo.isSpeaking = true;
+                this.inDialog = true;
+                this.game.puppo1.visible = true;
+                this.game.puppoFaceset.visible = true;
+                this.game.dialogContainer.visible = true;
+            }
+                break;
             default:
                 console.log('edge case found'); //used for err handling
+                //used to delete dialog on walkoff
+                this.removeDialog();
                 break;
         }
     },
     autoSave: function (){
         //when the game loads, nobody will be speaking
-                    /////add game.dialog?
-
         const data = {
             ramen: {...GameMachine.ramen, isSpeaking: false},
             market: {...GameMachine.market, isSpeaking: false},
@@ -209,8 +222,14 @@ I've been on the road for a long time, i could use the company`,
             console.log('err in loadgame', err);
         });
     },
-    test: function(params) {
-        console.log('in test');
-        game.scene.stop("")
+    removeDialog: function(params) {
+        //universal
+        this.inDialog = false;
+        this.speaker = null;
+        this.game.dialogContainer.visible = false;
+        //for puppo
+        this.game.puppo1.visible = false;
+        this.game.puppoFaceset.visible = false;
+        //for ramen
     }
 }

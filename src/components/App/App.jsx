@@ -44,8 +44,7 @@ function App() {
           <Route
             exact
             path="/user"
-          >
-            <UserPage />
+          >{user.id ? <UserPage /> : <Redirect to="/home" />}
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
