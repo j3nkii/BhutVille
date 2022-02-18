@@ -126,7 +126,7 @@ class KingsGate extends Phaser.Scene {
         this.physics.add.existing(this.door);
         this.gate.body.immovable = true;
     // dialog boxes
-        this.dialogContainer = this.add.image(320, 230, 'dialogbox');
+        this.dialogContainer = this.add.image(320, 230, 'dialogBox');
         this.puppoFaceset = this.add.image(65, 200, 'puppoFace');
         this.ramenFaceset = this.add.image(65, 200, 'ramenFace');
         this.hermitFaceset = this.add.image(65, 200, 'hermitFace');
