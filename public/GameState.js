@@ -69,29 +69,19 @@ const GameMachine = {
             case 'guard':
                 if(this.inDialog){
                     this.removeDialog();
-                    this.dialog.destroy();
                     this.guard.isSpeaking = false;
-                    this.inDialog = false;
-                    this.speaker = null
                 } else {
+                    this.game.dialogContainer.visible = true;
+                    this.game.guardFaceset.visible = true;
                     this.guard.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.player.hasHermit) {
-                        this.dialog = this.game.add.text(0, 0, 
-`kick rocks mister`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
-                        this.guard.hasMet = true;
+                        this.game.guardD1.visible = true;
                         this.autoSave();
                     } else if(this.player.hasHermit){
-                        this.dialog = this.game.add.text(0, 0, 
-`Oh! We've been expecting you Hermit! 
-He's with you? Fine, go ahead.`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
-                        this.player.hasSupplies = true;
-                        this.guard.hasMet = true;
+                        this.game.guardD2.visible = true;
                         this.layer12.visible = true;
                         this.layer13.visible = true;
-                        console.log(this.layerb);
                         this.game.gate.destroy();
                         this.autoSave();
                     }
@@ -100,40 +90,29 @@ He's with you? Fine, go ahead.`,
             //******************** HERMIT ********************\\
             case 'hermit':
                 if(this.inDialog){
-                    this.dialog.destroy();
+                    this.removeDialog();
                     this.hermit.isSpeaking = false;
-                    this.inDialog = false;
-                    this.speaker = null;
                 } else {
+                    this.game.hermitFaceset.visible = true;
+                    this.game.dialogContainer.visible = true;
                     this.hermit.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.hermit.hasMet && !this.player.hasRamen) {
-                        this.dialog = this.game.add.text(0, 0, 
-`trying to see the king huh? 
-Tell ya what, get me some food and i'll get ya in.`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.hermitD1.visible = true;
                         this.hermit.hasMet = true;
                         this.autoSave();
                     } else if(this.hermit.hasMet && this.player.hasRamen){
-                        this.dialog = this.game.add.text(0, 0, 
-`ah yes, the best Ramen in all of BhutVille!
-NomNomNomNomNom... sLUUURRRRPPP, ah yes, follow me.`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.hermitD2.visible = true;
                         this.player.hasHermit = true;
                         this.autoSave();
                     } else if(!this.hermit.hasMet && this.player.hasRamen){
-                        this.dialog = this.game.add.text(0, 0, 
-`Ah he's got a heart of gold that one. You looking to get in those gates?
-I've been on the road for a long time, i could use the company`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.hermitD3.visible = true;
                         this.hermit.hasMet = true;
                         this.player.hasHermit = true;
                         this.autoSave();
                     } else if(this.hermit.hasMet && !this.player.hasRamen){
+                        this.game.hermitD4.visible = true;
                         console.log(true);
-                        this.dialog = this.game.add.text(0, 0, 
-                            `Get me that Ramen and I'll get you through those gates.`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
                     }
                 }
                 break;
@@ -172,7 +151,7 @@ I've been on the road for a long time, i could use the company`,
             data: {data}
         }).then(res => {
             console.log(res);
-        })
+        }).catch(res => console.error(err));
     },
     loadGame: function(game){
         this.game = game;
@@ -198,7 +177,7 @@ I've been on the road for a long time, i could use the company`,
             console.log('err in loadgame', err);
         });
     },
-    removeDialog: function(params) {
+    removeDialog: function() {
         //universal
         this.inDialog = false;
         this.speaker = null;
@@ -217,11 +196,25 @@ I've been on the road for a long time, i could use the company`,
         this.game.marketD2.visible = false;
         this.game.marketD3.visible = false;
         this.game.marketD4.visible = false;
+        //guard
+        this.game.guardFaceset.visible = false;
+        this.game.guardD1.visible = false;
+        this.game.guardD2.visible = false;
+        //hermit
+        this.game.hermitFaceset.visible = false;
+        this.game.hermitD1.visible = false;
+        this.game.hermitD2.visible = false;
+        this.game.hermitD3.visible = false;
+        this.game.hermitD4.visible = false;
     },
     speakBubble: function(npc){
         this.game.speak.y = npc.y - 18
         this.game.speak.x = npc.x
         this.game.speak.active && this.game.speak.anims.play('think', true);
         this.game.speak.visible = true;
+    },
+    sceneTransition: function(evt){
+        this.game.scene.stop();
+        BhutVille.scene.start("Title");
     }
 }
