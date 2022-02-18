@@ -1,5 +1,3 @@
-// import KingsGate from './KingsGate'
-
 var config = {
     type: Phaser.AUTO,
     pixelArt: true,

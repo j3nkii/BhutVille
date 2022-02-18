@@ -34,6 +34,12 @@ class KingsGate extends Phaser.Scene {
         this.load.image('marketD2', '/assets/Dialog/marketD2.png');
         this.load.image('marketD3', '/assets/Dialog/marketD3.png');
         this.load.image('marketD4', '/assets/Dialog/marketD4.png');
+        this.load.image('guardD1', '/assets/Dialog/guardD1.png');
+        this.load.image('guardD2', '/assets/Dialog/guardD2.png');
+        this.load.image('hermitD1', '/assets/Dialog/hermitD1.png');
+        this.load.image('hermitD2', '/assets/Dialog/hermitD2.png');
+        this.load.image('hermitD3', '/assets/Dialog/hermitD3.png');
+        this.load.image('hermitD4', '/assets/Dialog/hermitD4.png');
     }
 
 //CREATE****************************************************************************************
@@ -47,7 +53,7 @@ class KingsGate extends Phaser.Scene {
             GameMachine.Dialog();
         });
         this.input.keyboard.on('keydown-ESC', function (event) {
-            GameMachine.test();
+            GameMachine.sceneTransition();
         });
     //create map
         const map = this.make.tilemap({key: 'map'});
@@ -92,7 +98,7 @@ class KingsGate extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
     //add puppo sprite
         this.puppo = this.physics.add.sprite(225, 90, 'puppo');
-        this.puppo.setCollideWorldBounds(true);
+        //this.puppo.setCollideWorldBounds(true); -- dog tends to run off
     //speakin icon
         this.speak = this.physics.add.sprite(0, 0, 'speak');
     //hitbox -- not used
@@ -102,7 +108,7 @@ class KingsGate extends Phaser.Scene {
         this.gate = this.add.rectangle(450, 0, 80, 64);
         this.physics.add.existing(this.gate);
         this.gate.body.immovable = true
-    //pass through door trigger
+    //gate trigger
         this.door = this.add.rectangle(450, 0, 80, 30);
         this.physics.add.existing(this.door);
         this.gate.body.immovable = true;
@@ -125,13 +131,22 @@ class KingsGate extends Phaser.Scene {
         this.marketD2 = this.add.image(350, 230, 'marketD2');
         this.marketD3 = this.add.image(350, 230, 'marketD3');
         this.marketD4 = this.add.image(350, 230, 'marketD4');
+        //guard
+        this.guardD1 = this.add.image(350, 230, 'guardD1');
+        this.guardD2 = this.add.image(350, 230, 'guardD2');
+        //hermit
+        this.hermitD1 = this.add.image(350, 230, 'hermitD1');
+        this.hermitD2 = this.add.image(350, 230, 'hermitD2');
+        this.hermitD3 = this.add.image(350, 230, 'hermitD3');
+        this.hermitD4 = this.add.image(350, 230, 'hermitD4');
+
         //hide dialogs
             this.dialogContainer.visible = false;
             this.puppoFaceset.visible = false;
             this.ramenFaceset.visible = false;
-            this.hermitFaceset.visible = false;
             this.marketFaceset.visible = false;
             this.guardFaceset.visible = false;
+            this.hermitFaceset.visible = false;
             this.puppo1.visible = false;
             this.ramenD1.visible = false;
             this.ramenD2.visible = false;
@@ -140,7 +155,12 @@ class KingsGate extends Phaser.Scene {
             this.marketD2.visible = false;
             this.marketD3.visible = false;
             this.marketD4.visible = false;
-
+            this.guardD1.visible = false;
+            this.guardD2.visible = false;
+            this.hermitD1.visible = false;
+            this.hermitD2.visible = false;
+            this.hermitD3.visible = false;
+            this.hermitD4.visible = false;
 
     //COLLISION***************************************************
     //setting collision
@@ -172,7 +192,9 @@ class KingsGate extends Phaser.Scene {
                 this.gate
             ]);
         //this.physics.add.overlap(this.box, this.guard, () => this.guard.destroy()); -- unused
-        this.physics.add.overlap(this.door, this.player, () => GameMachine.test());
+        this.physics.add.overlap(this.door, this.player, (event) => {  
+            GameMachine.sceneTransition();
+        });
     //ANIMATIONS***************************************************
     //Dialog Indicator animation
         this.anims.create({
