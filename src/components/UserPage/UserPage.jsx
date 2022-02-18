@@ -45,8 +45,10 @@ function UserPage() {
             <LogOutButton />
           </div>
           </div>
-        <QuickLoadChar />
-        <NewCharacterForm />
+        <div className="comp">
+          <NewCharacterForm />
+          <QuickLoadChar />
+        </div>
     </div>
   );
 }

@@ -49,7 +49,7 @@ class KingsGate extends Phaser.Scene {
         this.input.keyboard.on('keydown-ESC', function (event) {
             GameMachine.test();
         });
-    //map
+    //create map
         const map = this.make.tilemap({key: 'map'});
     //tilesets
         const floorTiles = map.addTilesetImage('TilesetFloor', 'floor');
@@ -106,7 +106,6 @@ class KingsGate extends Phaser.Scene {
         this.door = this.add.rectangle(450, 0, 80, 30);
         this.physics.add.existing(this.door);
         this.gate.body.immovable = true;
-
     // dialog boxes
         this.dialogContainer = this.add.image(320, 230, 'dialogbox');
         this.puppoFaceset = this.add.image(65, 200, 'puppoFace');
