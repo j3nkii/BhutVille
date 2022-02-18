@@ -20,7 +20,7 @@ class KingsGate extends Phaser.Scene {
         this.load.spritesheet('guard', 'assets/knight.png', { frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('puppo', 'assets/puppo.png', { frameWidth: 16, frameHeight: 16 });
         //dialog
-        this.load.image('dialogbox', '/assets/Dialog/dialogbox.png');
+        this.load.image('dialogbox', '/assets/Dialog/dialogBox.png');
         this.load.image('puppoFace', '/assets/Dialog/puppoFace.png');
         this.load.image('hermitFace', '/assets/Dialog/hermitFace.png');
         this.load.image('marketFace', '/assets/Dialog/marketFace.png');
@@ -126,7 +126,7 @@ class KingsGate extends Phaser.Scene {
         this.physics.add.existing(this.door);
         this.gate.body.immovable = true;
     // dialog boxes
-        this.dialogContainer = this.add.image(320, 230, 'dialogBox');
+        this.dialogContainer = this.add.image(320, 230, 'dialogbox');
         this.puppoFaceset = this.add.image(65, 200, 'puppoFace');
         this.ramenFaceset = this.add.image(65, 200, 'ramenFace');
         this.hermitFaceset = this.add.image(65, 200, 'hermitFace');
