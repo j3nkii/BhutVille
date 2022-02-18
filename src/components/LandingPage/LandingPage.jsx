@@ -14,7 +14,7 @@ function LandingPage() {
   return (
     <div id="landingPage">
       <div id="about" className="comp">
-      <h2 >About BhūtVille:</h2>
+      <h2 >About BhūttVille:</h2>
           <p>
               I created this game out of pure nostalgia. I miss the old days of a long road trip, playing Zelda Oracle of Seasons.
               So i figured why not try and recreate one? This was a big stretch for myself since I didn't any experience with game design

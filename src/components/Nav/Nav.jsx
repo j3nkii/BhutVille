@@ -11,7 +11,7 @@ function Nav() {
   <nav>
     <div id="navDiv">
       <Link to="/home">
-        <h2 className="nav-title">Bhutville</h2>
+        <h2 className="nav-title">Bhuttville</h2>
       </Link>
         {/* If a user is logged in, show these links */}
         {user.id && (

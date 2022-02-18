@@ -102,8 +102,21 @@ class KingsGate extends Phaser.Scene {
     //speakin icon
         this.speak = this.physics.add.sprite(0, 0, 'speak');
     //hitbox -- not used
-        this.box = this.add.rectangle(this.player.x, this.player.y , 48, 8);
-        this.physics.add.existing(this.box);
+        this.ramenBox = this.add.rectangle(this.ramen.x, this.ramen.y , 48, 48);
+        this.physics.add.existing(this.ramenBox);
+    //hitbox -- not used
+        this.hermitBox = this.add.rectangle(this.hermit.x, this.hermit.y , 48, 48);
+        this.physics.add.existing(this.hermitBox);
+    //hitbox -- not used
+        this.guardBox = this.add.rectangle(this.guard.x, this.guard.y , 48, 48);
+        this.physics.add.existing(this.guardBox);
+    //hitbox -- not used
+        this.marketBox = this.add.rectangle(this.market.x, this.market.y , 48, 48);
+        this.physics.add.existing(this.marketBox);
+    //hitbox -- not used
+        this.puppoBox = this.add.rectangle(this.puppo.x, this.puppo.y , 48, 48);
+        this.physics.add.existing(this.puppoBox);
+        
     //gate barricade
         this.gate = this.add.rectangle(450, 0, 80, 64);
         this.physics.add.existing(this.gate);
@@ -194,6 +207,12 @@ class KingsGate extends Phaser.Scene {
         //this.physics.add.overlap(this.box, this.guard, () => this.guard.destroy()); -- unused
         this.physics.add.overlap(this.door, this.player, (event) => {  
             GameMachine.sceneTransition();
+        }); 
+        this.physics.add.overlap(this.player, 
+            [this.ramenBox, this.hermitBox, this.guardBox, this.marketBox, this.puppoBox],
+            (event) => {  
+            console.log(event);
+            console.log(this);
         });
     //ANIMATIONS***************************************************
     //Dialog Indicator animation
@@ -240,10 +259,10 @@ class KingsGate extends Phaser.Scene {
     //NPC DIALOG HELPER***************************************
     //used to throw speak sprite above npcs ++ used to pass the in range npc to dialog function
                 //... lots of repeat code ...\\
-                //could use "area boxes" instead in future refactor
+                //could use "area boxes" instead in future refactor in 
         if((this.player.x <= this.ramen.x + 30 && this.player.x >= this.ramen.x - 30 )
                     &&
-                (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){ //when hermit moves to gate, player cant interactw
+                (this.player.y <= this.ramen.y + 30 && this.player.y >= this.ramen.y - 30)){
             GameMachine.speakBubble(this.ramen);
             GameMachine.speaker = 'ramen' ;
         } else if((this.player.x <= this.market.x + 30 && this.player.x >= this.market.x - 30 )
