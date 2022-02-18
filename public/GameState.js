@@ -15,85 +15,60 @@ const GameMachine = {
             //******************** RAMEN ********************\\
             case 'ramen':
                 if(this.inDialog){
-                    this.dialog.destroy();
+                    this.removeDialog();
                     this.ramen.isSpeaking = false;
-                    this.inDialog = false;
-                    this.speaker = null;
                 } else {
+                    this.game.dialogContainer.visible = true;
+                    this.game.ramenFaceset.visible = true;
                     this.ramen.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.ramen.hasMet) {
-                        this.dialog = this.game.add.text(0, 0, 
-`Welcome! What can i get for you? Oh! no money! 
-Take this note to the market and bring me back the supplies
-and i'll feed ya!`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.ramenD1.visible = true;
                         this.ramen.hasMet = true;
                         this.player.hasNote = true;
                         this.autoSave();
                     }else if(this.ramen.hasMet && this.player.hasSupplies){
-                        this.dialog = this.game.add.text(0, 0, 
-`You're the actual best! Here's some Ramen!
-Hey you mind running this bowl over to my 
-old friend over there!? Thanks!`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.ramenD2.visible = true;
                         this.player.hasRamen = true;
                         this.autoSave();
                     } else if(this.ramen.hasMet && this.player.hasNote){
-                        console.log(true);
-                        this.dialog = this.game.add.text(0, 0, 
-`The market is just east of here, you literally cannot miss it...`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.ramenD3.visible = true;
                     }
                 }
                 break;
             //******************** MARKET ********************\\
             case 'market':
                 if(this.inDialog){
-                    this.dialog.destroy();
+                    this.removeDialog();
                     this.market.isSpeaking = false;
-                    this.inDialog = false;
                     this.speaker = null;
                 } else {
+                    this.game.dialogContainer.visible = true;
+                    this.game.marketFaceset.visible = true;
                     this.market.isSpeaking = true;
                     this.inDialog = true;
                     if(!this.market.hasMet && !this.player.hasNote) {
-                        this.dialog = this.game.add.text(0, 0, 
-`Ah yes! 'nother travler come through, eh? 
-bet you could use some supplies! 
-What?! No Money?! this aint a charity kid.`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.marketD1.visible = true;
                         this.market.hasMet = true;
                         this.autoSave();
                     } else if(this.market.hasMet && this.player.hasNote){
-                        this.dialog = this.game.add.text(0, 0, 
-`Ah, look like you've made use of yourself. 
-Here's everything on the list, good luck out there...
-                            `,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.marketD2.visible = true;
                         this.player.hasSupplies = true;
                         this.autoSave();
                     } else if(!this.market.hasMet && this.player.hasNote){
-                        this.dialog = this.game.add.text(0, 0, 
-`Ah yes! 'nother travler come through, eh? 
-bet you could use some supplies!
-Oh, whats that note you have there? 
-Goodness! Quick take these!`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.marketD3.visible = true;
                         this.market.hasMet = true;
                         this.player.hasSupplies = true;
                         this.autoSave();
                     } else if(this.market.hasMet && !this.player.hasNote){
-                        console.log(true);
-                        this.dialog = this.game.add.text(0, 0, 
-`who raised you? I said beat it.`,
-                            { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize: '20px'});
+                        this.game.marketD4.visible = true;
                     }
                 }
                 break;
             //******************** GUARD ********************\\
             case 'guard':
                 if(this.inDialog){
+                    this.removeDialog();
                     this.dialog.destroy();
                     this.guard.isSpeaking = false;
                     this.inDialog = false;
@@ -174,6 +149,7 @@ I've been on the road for a long time, i could use the company`,
                 this.game.dialogContainer.visible = true;
             }
                 break;
+        //DEFAULT ********************\\
             default:
                 console.log('edge case found'); //used for err handling
                 //used to delete dialog on walkoff
@@ -228,8 +204,24 @@ I've been on the road for a long time, i could use the company`,
         this.speaker = null;
         this.game.dialogContainer.visible = false;
         //for puppo
-        this.game.puppo1.visible = false;
         this.game.puppoFaceset.visible = false;
+        this.game.puppo1.visible = false;
         //for ramen
+        this.game.ramenFaceset.visible = false;
+        this.game.ramenD1.visible = false;
+        this.game.ramenD2.visible = false;
+        this.game.ramenD3.visible = false;
+        //market
+        this.game.marketFaceset.visible = false;
+        this.game.marketD1.visible = false;
+        this.game.marketD2.visible = false;
+        this.game.marketD3.visible = false;
+        this.game.marketD4.visible = false;
+    },
+    speakBubble: function(npc){
+        this.game.speak.y = npc.y - 18
+        this.game.speak.x = npc.x
+        this.game.speak.active && this.game.speak.anims.play('think', true);
+        this.game.speak.visible = true;
     }
 }

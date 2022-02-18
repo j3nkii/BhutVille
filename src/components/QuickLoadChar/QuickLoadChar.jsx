@@ -29,7 +29,7 @@ function QuickLoadChar() {
                             <button
                                 id="table-button"
                                 className="button-primary table-button"
-                                onClick={()=> window.open(`./game.html?char=${item.id}`)}
+                                onClick={()=> window.open(`./game.html?char=${item.id}`)} //history . push?
                             >
                                 Load Game
                             </button>
