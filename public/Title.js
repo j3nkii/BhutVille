@@ -10,8 +10,8 @@ class Title extends Phaser.Scene {
         this.load.audio('dadada', './assets/TitleScreen/village.ogg')
     }
     create(){
-        const music = this.sound.add('dadada')
-        music.play();
+//         const music = this.sound.add('dadada')
+//         music.play();
 
         this.add.image(600, 200, 'img');
         this.add.image(180, 200, 'intro');
@@ -19,7 +19,7 @@ class Title extends Phaser.Scene {
         this.add.image(480, 200, 'inst');
 
         this.input.keyboard.on('keydown-SPACE', function (event) {
-            music.destroy();
+//             music.destroy();
             BhutVille.scene.stop("Title");
             BhutVille.scene.start("KingsGate");
         });
